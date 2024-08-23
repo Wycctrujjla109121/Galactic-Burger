@@ -1,0 +1,12 @@
+.wrapper,
+.wrapper__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.wrapper__list {
+    overflow-y: scroll;
+
+    max-height: 60vh;
+}

@@ -1,13 +1,16 @@
 import s from './App.module.scss';
-import { AppHeader, BurgerIngridients } from './components';
+import { AppHeader, BurgerConstructor, BurgerIngridients } from './components';
 import { ingridients } from './utils/data';
 
 function App() {
   const ingridientData = ingridients
   return (
-    <div className={s.wrapper}>
+    <div>
       <AppHeader />
-      <BurgerIngridients ingridients={ingridientData} />
+      <main className={s.main}>
+        <BurgerIngridients ingridients={ingridientData} />
+        <BurgerConstructor ingridients={ingridientData} />
+      </main>
     </div>
   );
 }
