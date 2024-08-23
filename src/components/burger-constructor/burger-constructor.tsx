@@ -11,10 +11,10 @@ export const BurgerConstructor = ({ ingridients }: { ingridients: IngridientsTyp
             <BurgerConstructorLayout>
                 {
                     ingridients.map(ingridient => (
-                        <div key={ingridient._id}>
+                        <div className={s.wrapper__item} key={ingridient._id}>
                             <DragIcon type="primary" />
                             <ConstructorElement
-                                extraClass='ml-2'
+                                extraClass='ml-2 mt-4'
                                 text={ingridient.name}
                                 price={ingridient.price}
                                 thumbnail={ingridient.image}
