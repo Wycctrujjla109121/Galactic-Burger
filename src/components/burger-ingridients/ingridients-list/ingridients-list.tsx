@@ -9,7 +9,7 @@ export const IngridientsList = ({ ingridients, choiseName }: { ingridients: Ingr
         <div className={`mb-10 ${s.wrapper}`}>
             {
                 choiseName.map(type => (
-                    <div key={type} className='mb-10'>
+                    <div key={type} className='mt-10'>
                         <p className="text text_type_main-large mb-6">
                             {type}
                         </p>
