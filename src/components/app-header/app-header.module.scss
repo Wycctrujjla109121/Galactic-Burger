@@ -1,0 +1,40 @@
+@import '../../styles/variable.scss';
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+
+    background-color: $gray-color;
+
+    &__menu {
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        max-width: 1280px;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+
+        color: inherit;
+
+        text-decoration: none;
+
+        width: fit-content;
+
+        border-radius: 40px;
+
+        p {
+            font-weight: 400;
+        }
+    }
+}

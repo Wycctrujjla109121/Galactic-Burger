@@ -1,0 +1,26 @@
+.wrapper {
+    border: 1px solid red;
+    overflow-y: scroll;
+    max-height: 70vh;
+}
+
+.ingridient {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: fit-content;
+
+    position: relative;
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__price {
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
+    }
+}
