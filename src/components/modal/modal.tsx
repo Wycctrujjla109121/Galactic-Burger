@@ -44,6 +44,6 @@ export const Modal = ({
             </div>
 
             <ModalOverlay setIsOpen={setIsOpen} />
-        </div>, document.body
+        </div>, document.getElementById('modals')!
     )
 };
