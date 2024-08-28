@@ -3,11 +3,19 @@ import { IngridientsType } from '../../types/ingridients-type';
 import { BurgerConstructorLayout } from './burger-constructor-layout';
 
 import s from './burger-constructor.module.scss';
+import { Modal } from '../modal';
+import { OrderDetails } from './order-details';
+import { useState } from 'react';
 
 export const BurgerConstructor = ({ ingridients }: { ingridients: IngridientsType[] }) => {
 
+    const [isOpen, setIsOpen] = useState(false)
+
     return (
         <section className={`${s.wrapper} mt-25`}>
+            <Modal isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
+                <OrderDetails />
+            </Modal>
             <BurgerConstructorLayout>
                 {
                     ingridients.map(ingridient => (
@@ -31,7 +39,7 @@ export const BurgerConstructor = ({ ingridients }: { ingridients: IngridientsTyp
                     </p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large">
+                <Button onClick={() => setIsOpen(true)} htmlType="button" type="primary" size="large">
                     Нажми на меня
                 </Button>
             </div>
