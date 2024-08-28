@@ -17,7 +17,7 @@ export const IngridientsList = ({ ingridients, choiseName }: { ingridients: Ingr
     }
 
     return (
-        <div className={`mb-10 ${s.wrapper}`}>
+        <div className={s.wrapper}>
             {ingridientDetail &&
                 <Modal withTitle isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
                     <IngridientDetails ingridient={ingridientDetail} />
