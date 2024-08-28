@@ -1,6 +1,6 @@
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './modal.module.scss'
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ModalOverlay } from '../modal-overlay';
 import { createPortal } from 'react-dom';
 
@@ -17,17 +17,17 @@ export const Modal = ({
         setIsOpen: () => void
     }) => {
 
+    const handleEscape = (e: KeyboardEvent) => {
+        e.key === 'Escape' && setIsOpen()
+    }
+
     useEffect(() => {
-        document.addEventListener("keydown", e => {
-            e.key === 'Escape' && setIsOpen()
-        }, false);
+        document.addEventListener("keydown", handleEscape, false);
 
         return () => {
-            document.removeEventListener("keydown", e => {
-                e.key === 'Escape' && setIsOpen()
-            }, false);
+            document.removeEventListener("keydown", handleEscape, false);
         };
-    })
+    }, [])
 
     return createPortal(
         <div className={[s.wrapper, isOpen ? s.wrapper_open : s.wrapper_close].join(' ')}>
