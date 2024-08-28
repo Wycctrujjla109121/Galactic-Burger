@@ -11,7 +11,12 @@ function App() {
     fetch(`${API_URL}`, {
       method: "GET"
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        return Promise.reject(`Статус ошибки: ${res.status}`);
+      })
       .then(data => setIngridients(data.data))
       .catch(error => console.error(error))
   }, [])
