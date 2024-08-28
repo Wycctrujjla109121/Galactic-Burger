@@ -12,6 +12,8 @@
 
     position: relative;
 
+    cursor: pointer;
+
     &__list {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
