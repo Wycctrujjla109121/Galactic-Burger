@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { API_URL } from "../../constants"
-import { IngridientsType } from "../../types/ingridients-type"
+import { ConstructorIngridientsType, IngridientsType } from "../../types/ingridients-type"
 
 export interface initialStateType {
     ingridients: IngridientsType[],
     isLoading: boolean,
     isError: boolean,
-    constructorIngridients: IngridientsType[],
+    constructorIngridients: ConstructorIngridientsType[],
     ingridientBun: IngridientsType | null,
     price: number
 }
@@ -35,7 +35,7 @@ export const ingridientsSlice = createSlice({
     name: 'ingridients',
     initialState: initialState,
     reducers: {
-      addIngridient: (state: initialStateType, action: PayloadAction<IngridientsType>) => {
+      addIngridient: (state: initialStateType, action: PayloadAction<ConstructorIngridientsType>) => {
         state.constructorIngridients.push(action.payload)
       },
       addBunIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {

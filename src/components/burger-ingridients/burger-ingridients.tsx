@@ -17,7 +17,7 @@ export const BurgerIngridients = () => {
 
             <ChoiseType choiseType={ingridientTypeName} />
 
-            <IngridientsList ingridients={ingridients} choiseName={ingridientTypeName} />
+            <IngridientsList choiseName={ingridientTypeName} />
         </section>
     );
 };

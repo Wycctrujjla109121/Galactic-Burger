@@ -12,3 +12,7 @@ export interface IngridientsType{
     image_large:string,
     __v:number
 }
+
+export interface ConstructorIngridientsType extends IngridientsType {
+    uniqId: string
+  }

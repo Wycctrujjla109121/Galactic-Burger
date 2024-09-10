@@ -30,7 +30,7 @@ export const BurgerConstructor = () => {
             <BurgerConstructorLayout>
                 {
                     constructorIngridients.map(ingridient => (
-                        <div className={s.wrapper__item} key={ingridient._id}>
+                        <div className={s.wrapper__item} key={ingridient.uniqId}>
                             <DragIcon type="primary" />
                             <ConstructorElement
                                 handleClose={() => dispatch(removeIngridient(ingridient))}
