@@ -6,7 +6,7 @@ import { IngridientDetails } from "../ingridient-details"
 import { useState } from "react"
 import { Modal } from "../../modal"
 import { useDispatch, useSelector } from "react-redux"
-import { addBunIngridient, addIngridient, selectIngridients } from "../../../services/ingridients/ingridients-slice"
+import { addBunIngridient, addIngridient, selectConstructorIngridients, selectIngridientBun, selectIngridients } from "../../../services/ingridients/ingridients-slice"
 import { nanoid } from "@reduxjs/toolkit"
 
 export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
@@ -16,12 +16,24 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
 
     const dispatch = useDispatch()
     const ingridients = useSelector(selectIngridients)
+    const ingridientsConstructor = useSelector(selectConstructorIngridients)
+    const ingridientBun = useSelector(selectIngridientBun)
 
     const handleModalOpen = (item: IngridientsType) => {
         setIngridientDetail(item)
         setIsOpen(true)
 
         item.type === 'bun' ? dispatch(addBunIngridient(item)) : dispatch(addIngridient({ ...item, uniqId: nanoid() }))
+    }
+
+    const countingQuantity = (item: IngridientsType) => {
+        if (item.type === 'bun' && ingridientBun && item._id === ingridientBun._id) {
+            return <Counter count={2} />
+        } else if (ingridientsConstructor && ingridientsConstructor.find(i => i._id === item._id)) {
+            return <Counter count={ingridientsConstructor.filter(i => i._id === item._id).length} />
+        } else {
+            return null
+        }
     }
 
     return (
@@ -47,7 +59,9 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
                                             <CurrencyIcon type="primary" />
                                         </div>
                                         <p className='text text_type_main-default' style={{ minHeight: '48px', width: '100%', textAlign: 'center' }}>Краторная булка N-200i</p>
-                                        <Counter count={0} />
+                                        {
+                                            countingQuantity(item)
+                                        }
                                     </div>
                                 ))
                             }

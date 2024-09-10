@@ -41,9 +41,8 @@ export const ingridientsSlice = createSlice({
       addBunIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
         state.ingridientBun = action.payload
       },
-      removeIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
-        console.log(action.payload)
-        state.constructorIngridients = state.constructorIngridients.filter(ingridient => action.payload._id !== ingridient._id)
+      removeIngridient: (state:initialStateType, action: PayloadAction<ConstructorIngridientsType>) => {
+        state.constructorIngridients = state.constructorIngridients.filter(ingridient => action.payload.uniqId !== ingridient.uniqId)
       }
     },
     selectors: {
