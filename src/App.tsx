@@ -1,32 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import s from './App.module.scss';
 import { AppHeader, BurgerConstructor, BurgerIngridients } from './components';
-import { API_URL } from './constants';
+import { useDispatch } from 'react-redux';
+import { fetchIngridients } from './services/ingridients/ingridients-slice';
+import { AppDispatch } from './services/store';
 
 function App() {
 
-  const [ingridients, setIngridients] = useState([])
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    fetch(`${API_URL}`, {
-      method: "GET"
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return Promise.reject(`Статус ошибки: ${res.status}`);
-      })
-      .then(data => setIngridients(data.data))
-      .catch(error => console.error(error))
-  }, [])
+    dispatch(fetchIngridients())
+  }, [dispatch])
 
   return (
     <div>
       <AppHeader />
       <main className={s.main}>
-        <BurgerIngridients ingridients={ingridients} />
-        <BurgerConstructor ingridients={ingridients} />
+        <BurgerIngridients />
+        <BurgerConstructor />
       </main>
     </div>
   );

@@ -1,15 +1,18 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngridientsType } from '../../types/ingridients-type';
 import { BurgerConstructorLayout } from './burger-constructor-layout';
 
 import s from './burger-constructor.module.scss';
 import { Modal } from '../modal';
 import { OrderDetails } from './order-details';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectIngridients } from '../../services/ingridients/ingridients-slice';
 
-export const BurgerConstructor = ({ ingridients }: { ingridients: IngridientsType[] }) => {
+export const BurgerConstructor = () => {
 
     const [isOpen, setIsOpen] = useState(false)
+
+    const ingridients = useSelector(selectIngridients)
 
     return (
         <section className={`${s.wrapper} mt-25`}>
