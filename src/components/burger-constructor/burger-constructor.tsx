@@ -5,8 +5,8 @@ import s from './burger-constructor.module.scss';
 import { Modal } from '../modal';
 import { OrderDetails } from './order-details';
 import { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectConstructorIngridients, selectIngridientBun } from '../../services/ingridients/ingridients-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeIngridient, selectConstructorIngridients, selectIngridientBun } from '../../services/ingridients/ingridients-slice';
 
 export const BurgerConstructor = () => {
 
@@ -14,6 +14,7 @@ export const BurgerConstructor = () => {
 
     const constructorIngridients = useSelector(selectConstructorIngridients)
     const ingridientBun = useSelector(selectIngridientBun)
+    const dispatch = useDispatch()
 
     const countPrice = useMemo(() => {
         const priceConstructor = constructorIngridients.reduce((acc, i) => acc += i.price, 0)
@@ -32,6 +33,7 @@ export const BurgerConstructor = () => {
                         <div className={s.wrapper__item} key={ingridient._id}>
                             <DragIcon type="primary" />
                             <ConstructorElement
+                                handleClose={() => dispatch(removeIngridient(ingridient))}
                                 extraClass='ml-2 mt-4'
                                 text={ingridient.name}
                                 price={ingridient.price}

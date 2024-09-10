@@ -40,6 +40,10 @@ export const ingridientsSlice = createSlice({
       },
       addBunIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
         state.ingridientBun = action.payload
+      },
+      removeIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
+        console.log(action.payload)
+        state.constructorIngridients = state.constructorIngridients.filter(ingridient => action.payload._id !== ingridient._id)
       }
     },
     selectors: {
@@ -64,5 +68,5 @@ export const ingridientsSlice = createSlice({
 
 export default ingridientsSlice.reducer
 
-export const { addIngridient, addBunIngridient } = ingridientsSlice.actions
+export const { addIngridient, addBunIngridient, removeIngridient } = ingridientsSlice.actions
 export const { selectIngridients, selectConstructorIngridients, selectIngridientBun } = ingridientsSlice.selectors
