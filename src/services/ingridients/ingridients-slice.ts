@@ -8,7 +8,8 @@ export interface initialStateType {
     isError: boolean,
     constructorIngridients: ConstructorIngridientsType[],
     ingridientBun: IngridientsType | null,
-    price: number
+    price: number,
+    selectedIngridient: IngridientsType | null
 }
 
 const initialState:initialStateType = {
@@ -17,7 +18,8 @@ const initialState:initialStateType = {
     isError: false,
     constructorIngridients: [],
     ingridientBun: null,
-    price: 0
+    price: 0,
+    selectedIngridient: null
 }
 
 export const fetchIngridients = createAsyncThunk(
@@ -43,12 +45,19 @@ export const ingridientsSlice = createSlice({
       },
       removeIngridient: (state:initialStateType, action: PayloadAction<ConstructorIngridientsType>) => {
         state.constructorIngridients = state.constructorIngridients.filter(ingridient => action.payload.uniqId !== ingridient.uniqId)
+      },
+      addSelectIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
+        state.selectedIngridient = action.payload
+      },
+      removeSelectIngridient: (state: initialStateType)=> {
+        state.selectedIngridient = null
       }
     },
     selectors: {
         selectIngridients: state => state.ingridients,
         selectConstructorIngridients: state => state.constructorIngridients,
         selectIngridientBun: state => state.ingridientBun,
+        selectIngridient: state => state.selectedIngridient
     },
     extraReducers: (builder) => {
       builder.addCase(fetchIngridients.pending, (state: initialStateType) => {
@@ -67,5 +76,5 @@ export const ingridientsSlice = createSlice({
 
 export default ingridientsSlice.reducer
 
-export const { addIngridient, addBunIngridient, removeIngridient } = ingridientsSlice.actions
-export const { selectIngridients, selectConstructorIngridients, selectIngridientBun } = ingridientsSlice.selectors
+export const { addIngridient, addBunIngridient, removeIngridient, addSelectIngridient, removeSelectIngridient } = ingridientsSlice.actions
+export const { selectIngridients, selectConstructorIngridients, selectIngridientBun, selectIngridient } = ingridientsSlice.selectors

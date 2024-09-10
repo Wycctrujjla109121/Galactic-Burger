@@ -6,22 +6,23 @@ import { IngridientDetails } from "../ingridient-details"
 import { useState } from "react"
 import { Modal } from "../../modal"
 import { useDispatch, useSelector } from "react-redux"
-import { addBunIngridient, addIngridient, selectConstructorIngridients, selectIngridientBun, selectIngridients } from "../../../services/ingridients/ingridients-slice"
+import { addBunIngridient, addIngridient, addSelectIngridient, selectConstructorIngridients, selectIngridient, selectIngridientBun, selectIngridients } from "../../../services/ingridients/ingridients-slice"
 import { nanoid } from "@reduxjs/toolkit"
 
 export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
 
-    const [ingridientDetail, setIngridientDetail] = useState<IngridientsType>()
     const [isOpen, setIsOpen] = useState(false)
 
     const dispatch = useDispatch()
     const ingridients = useSelector(selectIngridients)
     const ingridientsConstructor = useSelector(selectConstructorIngridients)
     const ingridientBun = useSelector(selectIngridientBun)
+    const currentSelectIngridient = useSelector(selectIngridient)
 
     const handleModalOpen = (item: IngridientsType) => {
-        setIngridientDetail(item)
         setIsOpen(true)
+
+        dispatch(addSelectIngridient(item))
 
         item.type === 'bun' ? dispatch(addBunIngridient(item)) : dispatch(addIngridient({ ...item, uniqId: nanoid() }))
     }
@@ -38,10 +39,13 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
 
     return (
         <div className={s.wrapper}>
-            {ingridientDetail &&
+            {currentSelectIngridient &&
                 <Modal withTitle isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
-                    <IngridientDetails ingridient={ingridientDetail} />
+                    <IngridientDetails />
                 </Modal>
+            }
+            {
+                currentSelectIngridient && <div>Выбран ингридиент</div>
             }
             {
                 choiseName.map(type => (

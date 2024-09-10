@@ -3,6 +3,8 @@ import s from './modal.module.scss'
 import { useCallback, useEffect } from 'react';
 import { ModalOverlay } from '../modal-overlay';
 import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSelectIngridient, removeSelectIngridient, selectIngridient } from '../../services/ingridients/ingridients-slice';
 
 export const Modal = ({
     withTitle,
@@ -17,8 +19,19 @@ export const Modal = ({
         setIsOpen: () => void
     }) => {
 
+    const dispatch = useDispatch()
+    const ingridient = useSelector(selectIngridient)
+
     const handleEscape = (e: KeyboardEvent) => {
-        e.key === 'Escape' && setIsOpen()
+        if (e.key === 'Escape') {
+            setIsOpen()
+            ingridient && dispatch(removeSelectIngridient())
+        }
+    }
+
+    const handleClose = () => {
+        setIsOpen()
+        dispatch(removeSelectIngridient())
     }
 
     useEffect(() => {
@@ -36,14 +49,14 @@ export const Modal = ({
                     <p className="text text_type_main-large">
                         {withTitle ? 'Детали ингридиента' : ''}
                     </p>
-                    <button onClick={setIsOpen} className={s.wrapper__button}>
+                    <button onClick={handleClose} className={s.wrapper__button}>
                         <CloseIcon type={'primary'} />
                     </button>
                 </div>
                 {children}
             </div>
 
-            <ModalOverlay setIsOpen={setIsOpen} />
+            <ModalOverlay setIsOpen={handleClose} />
         </div>, document.getElementById('modals')!
     )
 };
