@@ -5,15 +5,21 @@ import s from './ingridients-list.module.scss'
 import { IngridientDetails } from "../ingridient-details"
 import { useState } from "react"
 import { Modal } from "../../modal"
+import { useDispatch } from "react-redux"
+import { addBunIngridient, addIngridient } from "../../../services/ingridients/ingridients-slice"
 
 export const IngridientsList = ({ ingridients, choiseName }: { ingridients: IngridientsType[], choiseName: string[] }) => {
 
     const [ingridientDetail, setIngridientDetail] = useState<IngridientsType>()
     const [isOpen, setIsOpen] = useState(false)
 
+    const dispatch = useDispatch()
+
     const handleModalOpen = (item: IngridientsType) => {
         setIngridientDetail(item)
         setIsOpen(true)
+
+        item.type === 'bun' ? dispatch(addBunIngridient(item)) : dispatch(addIngridient(item))
     }
 
     return (

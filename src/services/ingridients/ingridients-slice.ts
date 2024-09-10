@@ -3,15 +3,21 @@ import { API_URL } from "../../constants"
 import { IngridientsType } from "../../types/ingridients-type"
 
 export interface initialStateType {
-    ingridients : IngridientsType[],
+    ingridients: IngridientsType[],
     isLoading: boolean,
-    isError: boolean
+    isError: boolean,
+    constructorIngridients: IngridientsType[],
+    ingridientBun: IngridientsType | null,
+    price: number
 }
 
 const initialState:initialStateType = {
     ingridients: [],
     isLoading: false,
-    isError: false
+    isError: false,
+    constructorIngridients: [],
+    ingridientBun: null,
+    price: 0
 }
 
 export const fetchIngridients = createAsyncThunk(
@@ -28,9 +34,18 @@ export const fetchIngridients = createAsyncThunk(
 export const ingridientsSlice = createSlice({
     name: 'ingridients',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+      addIngridient: (state: initialStateType, action: PayloadAction<IngridientsType>) => {
+        state.constructorIngridients.push(action.payload)
+      },
+      addBunIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
+        state.ingridientBun = action.payload
+      }
+    },
     selectors: {
-        selectIngridients: state => state.ingridients
+        selectIngridients: state => state.ingridients,
+        selectConstructorIngridients: state => state.constructorIngridients,
+        selectIngridientBun: state => state.ingridientBun,
     },
     extraReducers: (builder) => {
       builder.addCase(fetchIngridients.pending, (state: initialStateType) => {
@@ -48,4 +63,6 @@ export const ingridientsSlice = createSlice({
 });
 
 export default ingridientsSlice.reducer
-export const { selectIngridients } = ingridientsSlice.selectors
+
+export const { addIngridient, addBunIngridient } = ingridientsSlice.actions
+export const { selectIngridients, selectConstructorIngridients, selectIngridientBun } = ingridientsSlice.selectors

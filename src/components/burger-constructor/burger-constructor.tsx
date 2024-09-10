@@ -4,15 +4,22 @@ import { BurgerConstructorLayout } from './burger-constructor-layout';
 import s from './burger-constructor.module.scss';
 import { Modal } from '../modal';
 import { OrderDetails } from './order-details';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectIngridients } from '../../services/ingridients/ingridients-slice';
+import { selectConstructorIngridients, selectIngridientBun } from '../../services/ingridients/ingridients-slice';
 
 export const BurgerConstructor = () => {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const ingridients = useSelector(selectIngridients)
+    const constructorIngridients = useSelector(selectConstructorIngridients)
+    const ingridientBun = useSelector(selectIngridientBun)
+
+    const countPrice = useMemo(() => {
+        const priceConstructor = constructorIngridients.reduce((acc, i) => acc += i.price, 0)
+        const priceBun = ingridientBun ? ingridientBun.price * 2 : 0
+        return priceConstructor + priceBun
+    }, [ingridientBun, constructorIngridients])
 
     return (
         <section className={`${s.wrapper} mt-25`}>
@@ -21,7 +28,7 @@ export const BurgerConstructor = () => {
             </Modal>
             <BurgerConstructorLayout>
                 {
-                    ingridients.map(ingridient => (
+                    constructorIngridients.map(ingridient => (
                         <div className={s.wrapper__item} key={ingridient._id}>
                             <DragIcon type="primary" />
                             <ConstructorElement
@@ -38,7 +45,7 @@ export const BurgerConstructor = () => {
             <div className={`mt-10 ${s.wrapper__info}`}>
                 <div className={`mr-10 ${s.wrapper__price}`}>
                     <p className="text text_type_digits-medium mr-2">
-                        625
+                        {countPrice}
                     </p>
                     <CurrencyIcon type="primary" />
                 </div>
