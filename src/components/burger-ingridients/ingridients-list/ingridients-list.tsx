@@ -73,7 +73,7 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
                 choiseName.map(type => (
                     <div key={type} className='mt-10'>
                         <p className="text text_type_main-large mb-6">
-                            {type}
+                            {type === 'bun' ? 'Булки' : type === 'main' ? 'Начинка' : 'Соусы'}
                         </p>
                         <div className={s.ingridient__list}>
                             {

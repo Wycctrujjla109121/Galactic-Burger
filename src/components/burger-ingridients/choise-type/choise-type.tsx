@@ -8,7 +8,7 @@ export const ChoiseType = ({ choiseType }: { choiseType: string[] }) => {
     return (
         <div className={`mt-5 ${s.wrapper}`}>
             {
-                choiseType.map(type => <Tab key={type} value={type} onClick={setCurrent} active={current === type}>{type}</Tab>)
+                choiseType.map(type => <Tab key={type} value={type} onClick={setCurrent} active={current === type}>{type === 'bun' ? 'Булки' : type === 'main' ? 'Начинка' : 'Соусы'}</Tab>)
             }
         </div>
     )
