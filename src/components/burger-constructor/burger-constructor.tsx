@@ -1,15 +1,18 @@
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerConstructorLayout } from './burger-constructor-layout';
 
-import s from './burger-constructor.module.scss';
-import { Modal } from '../modal';
-import { OrderDetails } from './order-details';
+import { nanoid } from '@reduxjs/toolkit';
 import { useMemo, useState } from 'react';
+import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeIngridient, selectConstructorIngridients, selectIngridientBun } from '../../services/ingridients/ingridients-slice';
+import { addBunIngridient, addIngridient, addMutableConstructorIngridient, selectConstructorIngridients, selectIngridientBun } from '../../services/ingridients/ingridients-slice';
+import { IngridientsType } from '../../types/ingridients-type';
+import { Modal } from '../modal';
+import s from './burger-constructor.module.scss';
+import { DraggbleIngridient } from './draggble-ingridient/draggble-ingridient';
+import { OrderDetails } from './order-details';
 
 export const BurgerConstructor = () => {
-
     const [isOpen, setIsOpen] = useState(false)
 
     const constructorIngridients = useSelector(selectConstructorIngridients)
@@ -22,27 +25,43 @@ export const BurgerConstructor = () => {
         return priceConstructor + priceBun
     }, [ingridientBun, constructorIngridients])
 
+    const moveIngridient = (currentElementIndex: number, hoverIndex: number) => {
+        const currentIngridient = constructorIngridients[currentElementIndex]
+        const mutationConstructorIngridient = [...constructorIngridients]
+
+        mutationConstructorIngridient.splice(currentElementIndex, 1)
+        mutationConstructorIngridient.splice(hoverIndex, 0, currentIngridient)
+
+        dispatch(addMutableConstructorIngridient(mutationConstructorIngridient))
+    }
+
+    const [{ isCanDrop }, dropWrapper] = useDrop(() => ({
+        accept: 'ingridients',
+        drop: (item: IngridientsType) => item.type === 'bun' ? dispatch(addBunIngridient(item)) : dispatch(addIngridient({ ...item, uniqId: nanoid(10) })),
+        collect: monitor => ({
+            isCanDrop: !!monitor.canDrop()
+        }),
+    }))
+
     return (
         <section className={`${s.wrapper} mt-25`}>
             <Modal isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
                 <OrderDetails />
             </Modal>
-            <BurgerConstructorLayout>
-                {
-                    constructorIngridients.map(ingridient => (
-                        <div className={s.wrapper__item} key={ingridient.uniqId}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                handleClose={() => dispatch(removeIngridient(ingridient))}
-                                extraClass='ml-2 mt-4'
-                                text={ingridient.name}
-                                price={ingridient.price}
-                                thumbnail={ingridient.image}
+            <div className={s.wrapper__content} ref={dropWrapper} style={{ border: isCanDrop ? '6px dotted gray' : '6px dotted transparent' }}>
+                <BurgerConstructorLayout>
+                    {
+                        constructorIngridients.map((ingridient, index) => (
+                            <DraggbleIngridient
+                                key={ingridient.uniqId}
+                                ingridient={ingridient}
+                                index={index}
+                                moveIngridient={moveIngridient}
                             />
-                        </div>
-                    ))
-                }
-            </BurgerConstructorLayout>
+                        ))
+                    }
+                </BurgerConstructorLayout>
+            </div>
 
             <div className={`mt-10 ${s.wrapper__info}`}>
                 <div className={`mr-10 ${s.wrapper__price}`}>

@@ -16,3 +16,8 @@ export interface IngridientsType{
 export interface ConstructorIngridientsType extends IngridientsType {
     uniqId: string
   }
+
+export interface DragItemType {
+    ingridient: ConstructorIngridientsType,
+    index: number
+}

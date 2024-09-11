@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
+import { selectIngridients } from '../../services/ingridients/ingridients-slice';
 import s from './burger-ingridients.module.scss';
 import { ChoiseType } from './choise-type';
 import { IngridientsList } from './ingridients-list';
-import { selectIngridients } from '../../services/ingridients/ingridients-slice';
 
 export const BurgerIngridients = () => {
     const ingridients = useSelector(selectIngridients)

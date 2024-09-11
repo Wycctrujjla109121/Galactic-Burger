@@ -4,6 +4,8 @@ import { AppHeader, BurgerConstructor, BurgerIngridients } from './components';
 import { useDispatch } from 'react-redux';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { AppDispatch } from './services/store';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
 
@@ -17,8 +19,10 @@ function App() {
     <div>
       <AppHeader />
       <main className={s.main}>
-        <BurgerIngridients />
-        <BurgerConstructor />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngridients />
+          <BurgerConstructor />
+        </DndProvider>
       </main>
     </div>
   );

@@ -51,6 +51,9 @@ export const ingridientsSlice = createSlice({
       },
       removeSelectIngridient: (state: initialStateType)=> {
         state.selectedIngridient = null
+      },
+      addMutableConstructorIngridient: (state:initialStateType, action: PayloadAction<ConstructorIngridientsType[]>) => {
+        state.constructorIngridients = action.payload
       }
     },
     selectors: {
@@ -76,5 +79,5 @@ export const ingridientsSlice = createSlice({
 
 export default ingridientsSlice.reducer
 
-export const { addIngridient, addBunIngridient, removeIngridient, addSelectIngridient, removeSelectIngridient } = ingridientsSlice.actions
+export const { addIngridient, addBunIngridient, removeIngridient, addSelectIngridient, removeSelectIngridient, addMutableConstructorIngridient } = ingridientsSlice.actions
 export const { selectIngridients, selectConstructorIngridients, selectIngridientBun, selectIngridient } = ingridientsSlice.selectors
