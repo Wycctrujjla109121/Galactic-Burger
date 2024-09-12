@@ -1,10 +1,10 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { IngridientsType } from "../../../types/ingridients-type"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useDrag } from "react-dnd"
 import { useDispatch, useSelector } from "react-redux"
-import { addSelectIngridient, selectConstructorIngridients, selectIngridient, selectIngridientBun, selectIngridients } from "../../../services/ingridients/ingridients-slice"
+import { addSelectIngridient, changeNavigationMenuType, selectConstructorIngridients, selectIngridient, selectIngridientBun, selectIngridients, selectNavigationMenuType } from "../../../services/ingridients/ingridients-slice"
 import { Modal } from "../../modal"
 import { IngridientDetails } from "../ingridient-details"
 import s from './ingridients-list.module.scss'
@@ -18,6 +18,7 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
     const ingridientsConstructor = useSelector(selectConstructorIngridients)
     const ingridientBun = useSelector(selectIngridientBun)
     const currentSelectIngridient = useSelector(selectIngridient)
+    const navigationMenuType = useSelector(selectNavigationMenuType)
 
     const handleModalOpen = (item: IngridientsType) => {
         setIsOpen(true)
@@ -59,19 +60,52 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
         )
     }
 
+    const wrapperRef = useRef<HTMLDivElement>(null)
+    const bunRef = useRef<HTMLDivElement>(null)
+    const mainRef = useRef<HTMLDivElement>(null)
+    const sauceRef = useRef<HTMLDivElement>(null)
+
+    const handleScroll = () => {
+        const wrapperOffset = wrapperRef.current?.offsetTop
+        const bunRect = bunRef.current?.getBoundingClientRect()
+        const mainRect = mainRef.current?.getBoundingClientRect()
+        const sauceRect = sauceRef.current?.getBoundingClientRect()
+
+        if (bunRect && mainRect && sauceRect && wrapperOffset) {
+            const bunDistance = Math.abs(bunRect.top - wrapperOffset)
+            const mainDistance = Math.abs(mainRect.top - wrapperOffset)
+            const sauceDistance = Math.abs(sauceRect.top - wrapperOffset)
+
+            const minDistance = Math.min(bunDistance, mainDistance, sauceDistance)
+
+            if (minDistance === bunDistance && navigationMenuType !== 'bun') {
+                dispatch(changeNavigationMenuType('bun'))
+            } else if (minDistance === mainDistance && navigationMenuType !== 'main') {
+                dispatch(changeNavigationMenuType('main'))
+            } else if (minDistance === sauceDistance && navigationMenuType !== 'sauce') {
+                dispatch(changeNavigationMenuType('sauce'))
+            }
+        }
+    }
+
     return (
-        <div className={s.wrapper}>
+        <div
+            ref={wrapperRef}
+            onScroll={handleScroll}
+            className={s.wrapper}>
             {currentSelectIngridient &&
                 <Modal withTitle isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
                     <IngridientDetails />
                 </Modal>
             }
             {
-                currentSelectIngridient && <div>Выбран ингридиент</div>
-            }
-            {
                 choiseName.map(type => (
-                    <div key={type} className='mt-10'>
+                    <div
+                        ref={type === 'bun' ? bunRef : type === 'main' ? mainRef : sauceRef}
+                        key={type}
+                        id={type}
+                        className='mt-10'
+                    >
                         <p className="text text_type_main-large mb-6">
                             {type === 'bun' ? 'Булки' : type === 'main' ? 'Начинка' : 'Соусы'}
                         </p>

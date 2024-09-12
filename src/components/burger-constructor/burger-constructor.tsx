@@ -70,7 +70,7 @@ export const BurgerConstructor = () => {
 
     useEffect(() => {
         isOpen === false && dispatch(removeOrderDetailAndConstructorIngridient())
-    }, [isOpen])
+    }, [dispatch, isOpen])
 
     return (
         <section className={`${s.wrapper} mt-25`}>

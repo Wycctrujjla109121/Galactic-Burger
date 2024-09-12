@@ -11,6 +11,7 @@ export interface initialStateType {
     price: number,
     selectedIngridient: IngridientsType | null,
     order: OrderType | null
+    navigationMenuType: string
 }
 
 const initialState:initialStateType = {
@@ -21,7 +22,8 @@ const initialState:initialStateType = {
     ingridientBun: null,
     price: 0,
     selectedIngridient: null,
-    order: null
+    order: null,
+    navigationMenuType: 'bun'
 }
 
 export const fetchIngridients = createAsyncThunk(
@@ -80,6 +82,9 @@ export const ingridientsSlice = createSlice({
         state.order = null
         state.constructorIngridients = []
         state.ingridientBun = null
+      },
+      changeNavigationMenuType: (state: initialStateType, action: PayloadAction<string>) => {
+        state.navigationMenuType = action.payload
       }
     },
     selectors: {
@@ -87,7 +92,8 @@ export const ingridientsSlice = createSlice({
         selectConstructorIngridients: state => state.constructorIngridients,
         selectIngridientBun: state => state.ingridientBun,
         selectIngridient: state => state.selectedIngridient,
-        selectOrderDetails: state => state.order
+        selectOrderDetails: state => state.order,
+        selectNavigationMenuType: state => state.navigationMenuType
     },
     extraReducers: (builder) => {
       builder.addCase(fetchIngridients.pending, (state: initialStateType) => {
@@ -125,7 +131,8 @@ export const {
   addSelectIngridient, 
   removeSelectIngridient,
   addMutableConstructorIngridient,
-  removeOrderDetailAndConstructorIngridient
+  removeOrderDetailAndConstructorIngridient,
+  changeNavigationMenuType
 } = ingridientsSlice.actions
 
 export const { 
@@ -133,5 +140,6 @@ export const {
   selectConstructorIngridients,
   selectIngridientBun,
   selectIngridient,
-  selectOrderDetails
+  selectOrderDetails,
+  selectNavigationMenuType
 } = ingridientsSlice.selectors
