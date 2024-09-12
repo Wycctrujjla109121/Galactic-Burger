@@ -3,8 +3,6 @@ import s from './modal.module.scss'
 import { useEffect } from 'react';
 import { ModalOverlay } from '../modal-overlay';
 import { createPortal } from 'react-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeSelectIngridient, selectIngridient } from '../../services/ingridients/ingridients-slice';
 
 export const Modal = ({
     withTitle,
@@ -19,19 +17,14 @@ export const Modal = ({
         setIsOpen: () => void
     }) => {
 
-    const dispatch = useDispatch()
-    const ingridient = useSelector(selectIngridient)
-
     const handleEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             setIsOpen()
-            ingridient && dispatch(removeSelectIngridient())
         }
     }
 
     const handleClose = () => {
         setIsOpen()
-        dispatch(removeSelectIngridient())
     }
 
     useEffect(() => {

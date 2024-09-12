@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { API_URL, API_URL_ORDER } from "../../constants"
 import { ConstructorIngridientsType, IngridientsType, OrderType } from "../../types/ingridients-type"
+import { API_URL } from "../../constants"
+import { request } from "../../utils/request"
 
 export interface initialStateType {
     ingridients: IngridientsType[],
@@ -28,19 +29,17 @@ const initialState:initialStateType = {
 
 export const fetchIngridients = createAsyncThunk(
     'fetchIngridients',
-    async function  () {
-        const res = await fetch(API_URL, {method: 'GET'})
+    async function() {
+      const data = await request(`${API_URL}/ingredients`, {method: 'GET'})
 
-        const data = await res.json()
-
-        return data.data
-    }
+      return data.data
+    } 
 )
 
 export const postOrder = createAsyncThunk(
   'postOrder',
   async (ingridients: string[]) => {
-    const res = await fetch(API_URL_ORDER, {
+    const options = {
       method: 'POST',
       body: JSON.stringify({
         "ingredients": ingridients
@@ -48,9 +47,9 @@ export const postOrder = createAsyncThunk(
       headers: { 
         'Content-Type': 'application/json'
       },
-    })
+    }
 
-    const data = await res.json()
+    const data = await request(`${API_URL}/orders`, options)
 
     return data
   }
