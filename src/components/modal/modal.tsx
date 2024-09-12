@@ -40,6 +40,7 @@ export const Modal = ({
         return () => {
             document.removeEventListener("keydown", handleEscape, false);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return createPortal(
