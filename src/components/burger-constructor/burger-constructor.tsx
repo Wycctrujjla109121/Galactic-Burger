@@ -9,8 +9,8 @@ import { addBunIngridient, addIngridient, addMutableConstructorIngridient, selec
 import { IngridientsType } from '../../types/ingridients-type';
 import { Modal } from '../modal';
 import s from './burger-constructor.module.scss';
-import { DraggbleIngridient } from './draggble-ingridient/draggble-ingridient';
 import { OrderDetails } from './order-details';
+import { DraggbleIngridient } from './draggble-ingridient';
 
 export const BurgerConstructor = () => {
     const [isOpen, setIsOpen] = useState(false)
