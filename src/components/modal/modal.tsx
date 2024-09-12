@@ -1,10 +1,10 @@
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './modal.module.scss'
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ModalOverlay } from '../modal-overlay';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSelectIngridient, removeSelectIngridient, selectIngridient } from '../../services/ingridients/ingridients-slice';
+import { removeSelectIngridient, selectIngridient } from '../../services/ingridients/ingridients-slice';
 
 export const Modal = ({
     withTitle,

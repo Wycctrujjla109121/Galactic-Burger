@@ -1,11 +1,15 @@
+import { useSelector } from 'react-redux';
 import done from '../../../images/done.png'
 
 import s from './order-details.module.scss'
+import { selectOrderDetails } from '../../../services/ingridients/ingridients-slice';
 
 export const OrderDetails = () => {
+    const orderDetail = useSelector(selectOrderDetails)
+
     return (
         <div className={s.wrapper}>
-            <p className="text text_type_digits-large">034536</p>
+            <p className="text text_type_digits-large">{orderDetail?.order.number}</p>
             <p className="text text_type_main-medium mt-8">
                 идентификатор заказа
             </p>

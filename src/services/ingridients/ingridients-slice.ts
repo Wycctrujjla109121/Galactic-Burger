@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { API_URL } from "../../constants"
-import { ConstructorIngridientsType, IngridientsType } from "../../types/ingridients-type"
+import { API_URL, API_URL_ORDER } from "../../constants"
+import { ConstructorIngridientsType, IngridientsType, OrderType } from "../../types/ingridients-type"
 
 export interface initialStateType {
     ingridients: IngridientsType[],
@@ -9,7 +9,8 @@ export interface initialStateType {
     constructorIngridients: ConstructorIngridientsType[],
     ingridientBun: IngridientsType | null,
     price: number,
-    selectedIngridient: IngridientsType | null
+    selectedIngridient: IngridientsType | null,
+    order: OrderType | null
 }
 
 const initialState:initialStateType = {
@@ -19,7 +20,8 @@ const initialState:initialStateType = {
     constructorIngridients: [],
     ingridientBun: null,
     price: 0,
-    selectedIngridient: null
+    selectedIngridient: null,
+    order: null
 }
 
 export const fetchIngridients = createAsyncThunk(
@@ -31,6 +33,25 @@ export const fetchIngridients = createAsyncThunk(
 
         return data.data
     }
+)
+
+export const postOrder = createAsyncThunk(
+  'postOrder',
+  async (ingridients: string[]) => {
+    const res = await fetch(API_URL_ORDER, {
+      method: 'POST',
+      body: JSON.stringify({
+        "ingredients": ingridients
+      }),
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+    })
+
+    const data = await res.json()
+
+    return data
+  }
 )
 
 export const ingridientsSlice = createSlice({
@@ -49,18 +70,24 @@ export const ingridientsSlice = createSlice({
       addSelectIngridient: (state:initialStateType, action: PayloadAction<IngridientsType>) => {
         state.selectedIngridient = action.payload
       },
-      removeSelectIngridient: (state: initialStateType)=> {
+      removeSelectIngridient: (state: initialStateType) => {
         state.selectedIngridient = null
       },
       addMutableConstructorIngridient: (state:initialStateType, action: PayloadAction<ConstructorIngridientsType[]>) => {
         state.constructorIngridients = action.payload
+      },
+      removeOrderDetailAndConstructorIngridient: (state: initialStateType) =>{
+        state.order = null
+        state.constructorIngridients = []
+        state.ingridientBun = null
       }
     },
     selectors: {
         selectIngridients: state => state.ingridients,
         selectConstructorIngridients: state => state.constructorIngridients,
         selectIngridientBun: state => state.ingridientBun,
-        selectIngridient: state => state.selectedIngridient
+        selectIngridient: state => state.selectedIngridient,
+        selectOrderDetails: state => state.order
     },
     extraReducers: (builder) => {
       builder.addCase(fetchIngridients.pending, (state: initialStateType) => {
@@ -74,10 +101,37 @@ export const ingridientsSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       })
+      
+      builder.addCase(postOrder.pending, (state: initialStateType) => {
+        state.isLoading = true;
+      })
+      builder.addCase(postOrder.fulfilled, (state: initialStateType, action: PayloadAction<OrderType>) => {
+        state.isLoading = false
+        state.order = action.payload
+      })
+      builder.addCase(postOrder.rejected, (state: initialStateType) => {
+        state.isLoading = false
+        state.isError = true
+      })
     }
 });
 
 export default ingridientsSlice.reducer
 
-export const { addIngridient, addBunIngridient, removeIngridient, addSelectIngridient, removeSelectIngridient, addMutableConstructorIngridient } = ingridientsSlice.actions
-export const { selectIngridients, selectConstructorIngridients, selectIngridientBun, selectIngridient } = ingridientsSlice.selectors
+export const {
+  addIngridient,
+  addBunIngridient,
+  removeIngridient, 
+  addSelectIngridient, 
+  removeSelectIngridient,
+  addMutableConstructorIngridient,
+  removeOrderDetailAndConstructorIngridient
+} = ingridientsSlice.actions
+
+export const { 
+  selectIngridients,
+  selectConstructorIngridients,
+  selectIngridientBun,
+  selectIngridient,
+  selectOrderDetails
+} = ingridientsSlice.selectors

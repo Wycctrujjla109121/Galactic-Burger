@@ -21,3 +21,11 @@ export interface DragItemType {
     ingridient: ConstructorIngridientsType,
     index: number
 }
+
+export interface OrderType{
+    name: string
+    order: {
+        number: number
+    },
+    success: boolean
+}

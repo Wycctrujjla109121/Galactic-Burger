@@ -2,22 +2,33 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import { BurgerConstructorLayout } from './burger-constructor-layout';
 
 import { nanoid } from '@reduxjs/toolkit';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addBunIngridient, addIngridient, addMutableConstructorIngridient, selectConstructorIngridients, selectIngridientBun } from '../../services/ingridients/ingridients-slice';
+import {
+    addBunIngridient,
+    addIngridient,
+    addMutableConstructorIngridient,
+    postOrder,
+    removeOrderDetailAndConstructorIngridient,
+    selectConstructorIngridients,
+    selectIngridientBun,
+    selectOrderDetails
+} from '../../services/ingridients/ingridients-slice';
 import { IngridientsType } from '../../types/ingridients-type';
 import { Modal } from '../modal';
 import s from './burger-constructor.module.scss';
 import { OrderDetails } from './order-details';
 import { DraggbleIngridient } from './draggble-ingridient';
+import { AppDispatch } from '../../services/store';
 
 export const BurgerConstructor = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const constructorIngridients = useSelector(selectConstructorIngridients)
     const ingridientBun = useSelector(selectIngridientBun)
-    const dispatch = useDispatch()
+    const orderDetail = useSelector(selectOrderDetails)
+    const dispatch = useDispatch<AppDispatch>()
 
     const countPrice = useMemo(() => {
         const priceConstructor = constructorIngridients.reduce((acc, i) => acc += i.price, 0)
@@ -42,6 +53,24 @@ export const BurgerConstructor = () => {
             isCanDrop: !!monitor.canDrop()
         }),
     }))
+
+    const handlePostOrder = () => {
+        const orderIngridients = constructorIngridients.map(i => i._id)
+        if (ingridientBun) {
+            orderIngridients.push(ingridientBun?._id)
+            orderIngridients.unshift(ingridientBun?._id)
+        }
+
+        dispatch(postOrder(orderIngridients))
+    }
+
+    useEffect(() => {
+        orderDetail?.success === true && setIsOpen(true)
+    }, [orderDetail])
+
+    useEffect(() => {
+        isOpen === false && dispatch(removeOrderDetailAndConstructorIngridient())
+    }, [isOpen])
 
     return (
         <section className={`${s.wrapper} mt-25`}>
@@ -70,7 +99,7 @@ export const BurgerConstructor = () => {
                     </p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button onClick={() => setIsOpen(true)} htmlType="button" type="primary" size="large">
+                <Button onClick={handlePostOrder} htmlType="button" type="primary" size="large">
                     Нажми на меня
                 </Button>
             </div>
