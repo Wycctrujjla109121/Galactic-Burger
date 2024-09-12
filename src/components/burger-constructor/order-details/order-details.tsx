@@ -9,7 +9,7 @@ export const OrderDetails = () => {
 
     return (
         <div className={s.wrapper}>
-            <p className="text text_type_digits-large">{orderDetail?.order.number}</p>
+            <p className="text text_type_digits-large">{orderDetail?.order?.number}</p>
             <p className="text text_type_main-medium mt-8">
                 идентификатор заказа
             </p>
