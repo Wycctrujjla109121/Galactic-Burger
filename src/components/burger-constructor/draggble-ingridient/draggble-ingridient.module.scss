@@ -1,0 +1,7 @@
+.item {
+    transition: .2s;
+
+    &:last-of-type {
+        margin-bottom: 16px;
+    }
+}

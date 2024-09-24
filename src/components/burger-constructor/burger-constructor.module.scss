@@ -6,8 +6,11 @@
     flex-direction: column;
     align-items: flex-end;
 
-    &__item:last-of-type {
-        margin-bottom: 16px;
+    &__content {
+        height: 100%;
+        width: 100%;
+
+        transition: .2s;
     }
 
     &__info {
