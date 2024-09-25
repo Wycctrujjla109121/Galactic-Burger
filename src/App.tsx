@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import s from './App.module.scss';
-import { AppHeader, BurgerConstructor, BurgerIngridients } from './components';
+import { AppHeader } from './components';
 import { useDispatch } from 'react-redux';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { AppDispatch } from './services/store';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { ForgotPasswordPage, LoginPage, MainPage, NotFoundPage, RegistrationPage } from './pages';
 
 function App() {
 
@@ -16,14 +16,17 @@ function App() {
   }, [dispatch])
 
   return (
-    <div>
+    <div className={s.wrapper}>
       <AppHeader />
-      <main className={s.main}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngridients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
+      <Router>
+        <Routes>
+          <Route path='/' element={<MainPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/registration' element={<RegistrationPage />} />
+          <Route path='/registration/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='*' element={<NotFoundPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
