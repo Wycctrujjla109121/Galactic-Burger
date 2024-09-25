@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { AppDispatch } from './services/store';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { ForgotPasswordPage, LoginPage, MainPage, NotFoundPage, RegistrationPage } from './pages';
+import { ForgotPasswordPage, LoginPage, MainPage, NotFoundPage, ProfilePage, RegistrationPage, ResetPasswordPage } from './pages';
 
 function App() {
 
@@ -17,13 +17,20 @@ function App() {
 
   return (
     <div className={s.wrapper}>
-      <AppHeader />
       <Router>
+        <AppHeader />
         <Routes>
           <Route path='/' element={<MainPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/registration' element={<RegistrationPage />} />
-          <Route path='/registration/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='/reset-password' element={<ResetPasswordPage />} />
+          <Route path='/order' element={<>Тут списов заказов</>} />
+          <Route path='/profile' element={<ProfilePage />} >
+            <Route index element={<>Профиль редактирование</>} />
+            <Route path='orders' element={<>Профиль история заказов</>} />
+            <Route path='*' element={<>Такого маршрута не существует</>} />
+          </Route>
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </Router>

@@ -1,6 +1,7 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CustomLink } from "../../components";
+import { LINKS } from "../../constants";
 
 export const ForgotPasswordPage = () => {
     const [formValue, setFormValue] = useState('')
@@ -20,7 +21,7 @@ export const ForgotPasswordPage = () => {
             <div className={'form__content'}>
                 <form className={'form__info'} onSubmit={e => onSubmit(e)}>
                     <p className="text text_type_main-medium">
-                        Вход
+                        Восстановление пароля
                     </p>
                     <Input
                         value={formValue ?? ''}
@@ -34,7 +35,7 @@ export const ForgotPasswordPage = () => {
                     </Button>
                 </form>
                 <div className={'form__description'}>
-                    <CustomLink href={"/login"} text="Вспомнили пароль?" link={"Войти"} />
+                    <CustomLink href={LINKS.login} text="Вспомнили пароль?" link={"Войти"} />
                 </div>
             </div>
         </div>

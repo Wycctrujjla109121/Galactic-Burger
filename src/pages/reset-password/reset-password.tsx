@@ -1,10 +1,10 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CustomLink, InputPassword } from "../../components";
-import { ChangeEvent, FormEvent, useState } from "react";
 import { LINKS } from "../../constants";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-export const LoginPage = () => {
-    const [formValues, setFormValues] = useState({ email: '', password: '' })
+export const ResetPasswordPage = () => {
+    const [formValues, setFormValues] = useState({ password: '', code: '' })
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -21,26 +21,25 @@ export const LoginPage = () => {
             <div className={'form__content'}>
                 <form className={'form__info'} onSubmit={e => onSubmit(e)}>
                     <p className="text text_type_main-medium">
-                        Вход
+                        Восстановление пароля
                     </p>
-                    <Input
-                        value={formValues.email ?? ''}
-                        name='email'
-                        onChange={onChange}
-                        type='email'
-                        placeholder='E-mail'
-                    />
                     <InputPassword
                         value={formValues.password}
                         handleChange={onChange}
                     />
+                    <Input
+                        value={formValues.code ?? ''}
+                        name='code'
+                        onChange={onChange}
+                        type='text'
+                        placeholder='Введите код из письма'
+                    />
                     <Button htmlType={'submit'}>
-                        Войти
+                        Сохранить
                     </Button>
                 </form>
                 <div className={'form__description'}>
-                    <CustomLink href={LINKS.registration} text="Вы — новый пользователь?" link={"Зарегистрироваться"} />
-                    <CustomLink href={LINKS.forgotPassword} text="Забыли пароль?" link={"Восстановить пароль"} />
+                    <CustomLink href={LINKS.login} text="Вспомнили пароль?" link={"Войти"} />
                 </div>
             </div>
         </div>

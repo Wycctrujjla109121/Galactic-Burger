@@ -1,6 +1,7 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CustomLink, InputPassword } from "../../components";
+import { LINKS } from "../../constants";
 
 export const RegistrationPage = () => {
     const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
@@ -20,7 +21,7 @@ export const RegistrationPage = () => {
             <div className={'form__content'}>
                 <form className={'form__info'} onSubmit={e => onSubmit(e)}>
                     <p className="text text_type_main-medium">
-                        Вход
+                        Регистрация
                     </p>
                     <Input
                         value={formValues.name ?? ''}
@@ -45,7 +46,7 @@ export const RegistrationPage = () => {
                     </Button>
                 </form>
                 <div className={'form__description'}>
-                    <CustomLink href={"/login"} text="Уже зарегистрированы?" link={"Войти"} />
+                    <CustomLink href={LINKS.login} text="Уже зарегистрированы?" link={"Войти"} />
                 </div>
             </div>
         </div>
