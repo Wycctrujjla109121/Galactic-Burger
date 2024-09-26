@@ -1,20 +1,33 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CustomLink, InputPassword } from "../../components";
 import { LINKS } from "../../constants";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPassword, selectError, selectIsLoading } from "../../services/user/user-slice";
+import { AppDispatch } from "../../services/store";
 
 export const ResetPasswordPage = () => {
-    const [formValues, setFormValues] = useState({ password: '', code: '' })
+    const [formValues, setFormValues] = useState({ password: '', token: '' })
+
+    const navigate = useNavigate()
+    const isLoading = useSelector(selectIsLoading)
+    const isError = useSelector(selectError)
+    const dispatch = useDispatch<AppDispatch>()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        console.log(formValues)
+        dispatch(resetPassword(formValues))
     }
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value })
     }
+
+    useEffect(() => {
+        !isError && !localStorage.getItem('resetPassword') && navigate(LINKS.login)
+    }, [isLoading])
 
     return (
         <div className={'form'}>
@@ -28,8 +41,8 @@ export const ResetPasswordPage = () => {
                         handleChange={onChange}
                     />
                     <Input
-                        value={formValues.code ?? ''}
-                        name='code'
+                        value={formValues.token ?? ''}
+                        name='token'
                         onChange={onChange}
                         type='text'
                         placeholder='Введите код из письма'

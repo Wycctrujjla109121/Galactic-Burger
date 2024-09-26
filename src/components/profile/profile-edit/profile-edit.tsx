@@ -1,8 +1,15 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './profile-edit.module.scss'
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserInfo, selectIsLoading, selectUser, updateUserInfo } from '../../../services/user/user-slice';
+import { AppDispatch } from '../../../services/store';
 
 export const ProfileEdit = () => {
+    const user = useSelector(selectUser)
+    const isLoading = useSelector(selectIsLoading)
+    const dispatch = useDispatch<AppDispatch>()
+
     const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -12,11 +19,23 @@ export const ProfileEdit = () => {
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        console.log(formValues)
+        dispatch(updateUserInfo(formValues))
     }
 
+    const onReset = () => {
+        setFormValues(prev => ({ ...prev, name: user.name ?? '', email: user.email ?? '' }))
+    }
+
+    useEffect(() => {
+        dispatch(getUserInfo())
+    }, [])
+
+    useEffect(() => {
+        setFormValues(prev => ({ ...prev, name: user.name ?? '', email: user.email ?? '' }))
+    }, [isLoading])
+
     return (
-        <form className={s.wrapper} onSubmit={onSubmit}>
+        <form className={s.wrapper} onSubmit={onSubmit} onReset={onReset}>
             <Input
                 name='name'
                 type='text'
