@@ -140,6 +140,26 @@ export const updateUserInfo = createAsyncThunk(
     }
 )
 
+export const refreshToken = createAsyncThunk(
+    'refreshToken',
+    async () => {
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({
+                "token": localStorage.getItem("refreshToken")
+            })
+        }
+
+        const data = request(`${API_URL}/auth/user`, options)
+
+        return data
+    }
+)
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
@@ -225,6 +245,19 @@ export const userSlice = createSlice({
             state.user = action.payload.user
         })
         builder.addCase(updateUserInfo.rejected, (state) => {
+            state.isLoading = false
+            state.isError = true
+        })
+
+        builder.addCase(refreshToken.pending, (state: InitialStateType) => {
+            state.isLoading = true
+        })
+        builder.addCase(refreshToken.fulfilled, (state: InitialStateType, action:PayloadAction<AuthResponceType>) => {
+            state.isLoading = false
+            state.user = action.payload.user
+            addLocalStorageToken(action.payload.accessToken, action.payload.refreshToken)
+        })
+        builder.addCase(refreshToken.rejected, (state) => {
             state.isLoading = false
             state.isError = true
         })
