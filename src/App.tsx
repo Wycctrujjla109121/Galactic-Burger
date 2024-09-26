@@ -6,6 +6,7 @@ import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { AppDispatch } from './services/store';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, MainPage, NotFoundPage, ProfilePage, RegistrationPage, ResetPasswordPage } from './pages';
+import { ProfileEdit } from './components/profile/profile-edit';
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
           <Route path='/reset-password' element={<ResetPasswordPage />} />
           <Route path='/order' element={<>Тут списов заказов</>} />
           <Route path='/profile' element={<ProfilePage />} >
-            <Route index element={<>Профиль редактирование</>} />
+            <Route index element={<ProfileEdit />} />
             <Route path='orders' element={<>Профиль история заказов</>} />
             <Route path='*' element={<>Такого маршрута не существует</>} />
           </Route>
