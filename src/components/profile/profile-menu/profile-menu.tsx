@@ -1,6 +1,9 @@
 import { NavLink, NavLinkRenderProps, useLocation } from 'react-router-dom';
 import s from './profile-menu.module.scss'
 import { LINKS } from '../../../constants';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../services/user/user-slice';
+import { AppDispatch } from '../../../services/store';
 
 interface LinksTypes {
     href: string,
@@ -27,8 +30,10 @@ export const ProfileMenu = () => {
         }
     ]
 
+    const dispatch = useDispatch<AppDispatch>()
+
     const handleSignOut = () => {
-        console.log('Выйти')
+        dispatch(logout())
     }
 
     return (

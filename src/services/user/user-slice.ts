@@ -140,6 +140,25 @@ export const updateUserInfo = createAsyncThunk(
     }
 )
 
+export const logout = createAsyncThunk(
+    'logout',
+    async () => {
+        const options = {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "token": localStorage.getItem('refreshToken')
+            })
+        }
+
+        const data = request(`${API_URL}/auth/logout`, options)
+
+        return data
+    }
+)
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
@@ -225,6 +244,22 @@ export const userSlice = createSlice({
         builder.addCase(updateUserInfo.rejected, (state) => {
             state.isLoading = false
             state.isError = true
+        })
+
+        builder.addCase(logout.pending, (state: InitialStateType) => {
+            state.isLoading = true
+        })
+        builder.addCase(logout.fulfilled, (state:InitialStateType) => {
+            state.user.name = null
+            state.user.email = null
+            state.isLoading = false
+
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+        })
+        builder.addCase(logout.rejected, (state:InitialStateType) => {
+            state.isError = true
+            state.isLoading = false
         })
     }
 
