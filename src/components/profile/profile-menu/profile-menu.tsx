@@ -1,7 +1,6 @@
-import { NavLink, NavLinkRenderProps, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, NavLinkRenderProps, useLocation } from 'react-router-dom';
 import s from './profile-menu.module.scss'
 import { LINKS } from '../../../constants';
-import { link } from 'fs';
 
 interface LinksTypes {
     href: string,

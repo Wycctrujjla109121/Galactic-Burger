@@ -10,7 +10,7 @@ interface InitialStateType{
         name: string | null,
     }
     isLoading: boolean,
-    isError: boolean
+    isError: boolean,
 }
 
 const initialState:InitialStateType = {
@@ -19,7 +19,7 @@ const initialState:InitialStateType = {
         name: null,
     },
     isLoading: false,
-    isError: false
+    isError: false,
 }
 
 export const signIn = createAsyncThunk(
@@ -143,13 +143,11 @@ export const updateUserInfo = createAsyncThunk(
 export const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
-    reducers: {
-
-    },
+    reducers: {},
     selectors:{
         selectUser: (state) => state.user,
         selectIsLoading: (state) => state.isLoading,
-        selectError: (state) => state.isError
+        selectError: (state) => state.isError,
     },
     extraReducers: (builder) => {
         builder.addCase(signIn.pending, (state: InitialStateType) => {
