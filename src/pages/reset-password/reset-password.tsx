@@ -26,7 +26,7 @@ export const ResetPasswordPage = () => {
     }
 
     useEffect(() => {
-        !isError && !localStorage.getItem('resetPassword') && navigate(LINKS.login)
+        !isError && !localStorage.getItem('resetPassword') && navigate(LINKS.forgotPassword)
     }, [isLoading])
 
     return (

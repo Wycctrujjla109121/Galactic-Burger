@@ -1,5 +1,5 @@
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, NavLink, NavLinkRenderProps } from 'react-router-dom';
+import { NavLink, NavLinkRenderProps } from 'react-router-dom';
 import { LINKS } from '../../constants';
 import s from './app-header.module.scss';
 import { Fragment } from 'react/jsx-runtime';
