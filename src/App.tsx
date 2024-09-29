@@ -7,13 +7,14 @@ import { AppDispatch } from './services/store';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, MainPage, NotFoundPage, ProfilePage, RegistrationPage, ResetPasswordPage } from './pages';
 import { ProfileEdit } from './components/profile/profile-edit';
+import { authChecked } from './services/user/user-slice';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    dispatch(fetchIngridients())
-  }, [dispatch])
+    dispatch(authChecked(dispatch))
+  }, [])
 
   return (
     <div className={s.wrapper}>

@@ -2,7 +2,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import s from './profile-edit.module.scss'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, selectIsLoading, selectUser, updateUserInfo } from '../../../services/user/user-slice';
+import { selectIsLoading, selectUser, updateUserInfo } from '../../../services/user/user-slice';
 import { AppDispatch } from '../../../services/store';
 
 export const ProfileEdit = () => {

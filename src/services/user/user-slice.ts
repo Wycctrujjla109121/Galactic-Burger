@@ -3,6 +3,7 @@ import { request } from "../../utils/request";
 import { API_URL } from "../../constants";
 import { AuthResponceType, ResponceUserType } from "../../types/auth.types";
 import { addLocalStorageToken } from "../../utils/localStorageToken";
+import { AppDispatch} from "../store";
 
 interface InitialStateType{
     user: {
@@ -11,12 +12,14 @@ interface InitialStateType{
     } | null
     isLoading: boolean,
     isError: boolean,
+    isAuthChecked: boolean,
 }
 
 const initialState:InitialStateType = {
     user: null,
     isLoading: false,
     isError: false,
+    isAuthChecked: false
 }
 
 export const signIn = createAsyncThunk(
@@ -156,24 +159,34 @@ export const logout = createAsyncThunk(
     }
 )
 
+export const authChecked = createAsyncThunk(
+    'authChecked',
+    async (dispatch: AppDispatch) => { dispatch(getUserInfo()) }
+)
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        reducerAuthChecker: (state:InitialStateType, action: PayloadAction<boolean>) => {
+            state.isAuthChecked = action.payload
+        }
+    },
     selectors:{
         selectUser: (state) => state.user,
         selectIsLoading: (state) => state.isLoading,
         selectError: (state) => state.isError,
+        selectIsAuthChecked: (state) => state.isAuthChecked
     },
     extraReducers: (builder) => {
         builder.addCase(signIn.pending, (state: InitialStateType) => {
             state.isLoading = true
         })
         builder.addCase(signIn.fulfilled, (state: InitialStateType, action:PayloadAction<AuthResponceType>) => {
-            state.isLoading = false
             state.user = action.payload.user
-
+            
             addLocalStorageToken(action.payload.accessToken, action.payload.refreshToken)
+            state.isLoading = false
         })
         builder.addCase(signIn.rejected, (state) => {
             state.isLoading = false
@@ -184,10 +197,10 @@ export const userSlice = createSlice({
             state.isLoading = true
         })
         builder.addCase(registration.fulfilled, (state: InitialStateType, action:PayloadAction<AuthResponceType>) => {
-            state.isLoading = false
             state.user = action.payload.user
 
             addLocalStorageToken(action.payload.accessToken, action.payload.refreshToken)
+            state.isLoading = false
         })
         builder.addCase(registration.rejected, (state) => {
             state.isLoading = false
@@ -223,20 +236,24 @@ export const userSlice = createSlice({
             state.isLoading = true
         })
         builder.addCase(getUserInfo.fulfilled, (state: InitialStateType, action:PayloadAction<ResponceUserType>) => {
-            state.isLoading = false
             state.user = action.payload.user
+            state.isLoading = false
+
+            state.isAuthChecked = true
         })
         builder.addCase(getUserInfo.rejected, (state) => {
             state.isLoading = false
             state.isError = true
+
+            state.isAuthChecked = true
         })
 
         builder.addCase(updateUserInfo.pending, (state: InitialStateType) => {
             state.isLoading = true
         })
         builder.addCase(updateUserInfo.fulfilled, (state: InitialStateType, action:PayloadAction<ResponceUserType>) => {
-            state.isLoading = false
             state.user = action.payload.user
+            state.isLoading = false
         })
         builder.addCase(updateUserInfo.rejected, (state) => {
             state.isLoading = false
@@ -263,4 +280,6 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer
 
-export const { selectUser, selectIsLoading, selectError } = userSlice.selectors 
+export const { reducerAuthChecker } = userSlice.actions
+
+export const { selectUser, selectIsLoading, selectError, selectIsAuthChecked } = userSlice.selectors 
