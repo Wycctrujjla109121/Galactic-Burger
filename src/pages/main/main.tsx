@@ -12,7 +12,7 @@ export const MainPage = () => {
 
     useEffect(() => {
         dispatch(fetchIngridients())
-    }, [dispatch])
+    }, [])
 
     return (
         <main className={s.wrapper}>

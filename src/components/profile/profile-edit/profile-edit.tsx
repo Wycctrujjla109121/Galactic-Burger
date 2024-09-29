@@ -13,6 +13,7 @@ export const ProfileEdit = () => {
     const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSaveVisible(true)
         setFormValues({ ...formValues, [e.target.name]: [e.target.value].toString() })
     }
 
@@ -23,6 +24,7 @@ export const ProfileEdit = () => {
     }
 
     const onReset = () => {
+        setSaveVisible(false)
         setFormValues(prev => ({ ...prev, name: user?.name ?? '', email: user?.email ?? '' }))
     }
 
@@ -30,37 +32,55 @@ export const ProfileEdit = () => {
         setFormValues(prev => ({ ...prev, name: user?.name ?? '', email: user?.email ?? '' }))
     }, [isLoading])
 
+    const [nameDisabled, setNameDisabled] = useState(true)
+    const [emailDisabled, setEmailDisabled] = useState(true)
+    const [PasswordDisabled, setPasswordDisabled] = useState(true)
+
+    const [saveVisible, setSaveVisible] = useState(false)
+
     return (
         <form className={s.wrapper} onSubmit={onSubmit} onReset={onReset}>
             <Input
+                disabled={nameDisabled}
                 name='name'
                 type='text'
                 placeholder='Имя'
                 value={formValues.name ?? ''}
                 icon='EditIcon'
-                onChange={handleChange} />
+                onChange={handleChange}
+                onIconClick={() => setNameDisabled(prev => !prev)}
+            />
             <Input
+                disabled={emailDisabled}
                 name='email'
                 type='email'
                 placeholder='Логин'
                 icon='EditIcon'
                 value={formValues.email ?? ''}
-                onChange={handleChange} />
+                onChange={handleChange}
+                onIconClick={() => setEmailDisabled(prev => !prev)}
+            />
             <Input
+                disabled={PasswordDisabled}
                 name='password'
                 type='password'
                 placeholder='Пароль'
                 icon='EditIcon'
                 value={formValues.password ?? ''}
-                onChange={handleChange} />
-            <div className={s.wrapper__buttons}>
-                <Button htmlType={'reset'} type="secondary" size="large">
-                    Отмена
-                </Button>
-                <Button htmlType={'submit'}>
-                    Сохранить
-                </Button>
-            </div>
+                onChange={handleChange}
+                onIconClick={() => setPasswordDisabled(prev => !prev)}
+            />
+            {
+                saveVisible &&
+                <div className={s.wrapper__buttons}>
+                    <Button htmlType={'reset'} type="secondary" size="large">
+                        Отмена
+                    </Button>
+                    <Button htmlType={'submit'}>
+                        Сохранить
+                    </Button>
+                </div>
+            }
         </form>
     );
 };

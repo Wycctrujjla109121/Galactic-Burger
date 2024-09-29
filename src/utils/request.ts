@@ -1,4 +1,3 @@
-import { RequestOptions } from "https";
 import { checkResponse } from "./check-response";
 import { refreshToken } from "./refreshToken";
 
@@ -8,18 +7,13 @@ export async function request(url: string, options: RequestInit): Promise<any>{
     if (responce.message === 'jwt expired'){
         const resToken = await refreshToken()
 
-        let newOptions: RequestOptions = Object.assign(options)
+        localStorage.setItem('accessToken', resToken.accessToken.replace(`Bearer `, ''))
+        localStorage.setItem('refreshToken', resToken.refreshToken)
 
-        if (resToken.accessToken && resToken.refreshToken){
-                localStorage.setItem('accessToken', resToken.accessToken.replace(`Bearer `, ''))
-                localStorage.setItem('refreshToken', resToken.refreshToken)
-            if(newOptions.headers?.authorization){
-                newOptions.headers.authorization = resToken.accessToken
-            }
-        }
+        const newOptions = {...options, headers: {...options.headers, 'Authorization': resToken.accessToken}}
 
-        return fetch(url, newOptions as RequestInit).then(checkResponse)
+        return fetch(url, newOptions).then(checkResponse)
     }
 
-    return fetch(url, options).then(checkResponse)
+    return responce
 }

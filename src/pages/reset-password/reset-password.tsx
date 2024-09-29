@@ -26,8 +26,8 @@ export const ResetPasswordPage = () => {
     }
 
     useEffect(() => {
-        !isError && !localStorage.getItem('resetPassword') && navigate(LINKS.forgotPassword)
-    }, [isLoading])
+        (!isError && !localStorage.getItem('resetPassword')) && navigate(LINKS.forgotPassword)
+    }, [isLoading, isError, navigate])
 
     return (
         <div className={'form'}>
