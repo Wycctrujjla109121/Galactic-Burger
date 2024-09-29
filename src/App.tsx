@@ -1,20 +1,25 @@
 import { useEffect } from 'react';
 import s from './App.module.scss';
-import { AppHeader, AuthUser, NotAuthUser } from './components';
-import { useDispatch } from 'react-redux';
+import { AppHeader, AuthUser, ModalPreloader, NotAuthUser } from './components';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { AppDispatch } from './services/store';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, MainPage, NotFoundPage, ProfilePage, RegistrationPage, ResetPasswordPage } from './pages';
 import { ProfileEdit } from './components/profile/profile-edit';
-import { authChecked } from './services/user/user-slice';
+import { authChecked, selectIsLoading } from './services/user/user-slice';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
+  const isLoading = useSelector(selectIsLoading)
 
   useEffect(() => {
     dispatch(authChecked(dispatch))
   }, [])
+
+  if (isLoading) {
+    return <ModalPreloader />
+  }
 
   return (
     <div className={s.wrapper}>

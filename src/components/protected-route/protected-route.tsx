@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectIsAuthChecked, selectUser } from "../../services/user/user-slice";
 import { Navigate, useLocation } from "react-router";
 import { LINKS } from "../../constants";
+import { ModalPreloader } from "../modal-preloader";
 
 export const ProtectedRoute = ({ page, onlyAuth = false }: { page: ReactElement, onlyAuth?: boolean }) => {
     const user = useSelector(selectUser)
@@ -10,7 +11,7 @@ export const ProtectedRoute = ({ page, onlyAuth = false }: { page: ReactElement,
     const location = useLocation()
 
     if (!isAuthChecked) {
-        return <>...Загрузка</>
+        return <ModalPreloader />
     }
 
     if (!onlyAuth && !user) {
