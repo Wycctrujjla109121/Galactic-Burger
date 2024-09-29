@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { selectIsLoading, selectUser } from "../../services/user/user-slice";
+import { selectUser } from "../../services/user/user-slice";
 import { Navigate, useLocation } from "react-router";
 import { LINKS } from "../../constants";
 
@@ -8,11 +8,11 @@ export const ProtectedRoute = ({ page, onlyAuth = false }: { page: ReactElement,
     const user = useSelector(selectUser)
     const location = useLocation()
 
-    if (!onlyAuth && !user.name) {
+    if (!onlyAuth && !user) {
         return <Navigate to={LINKS.login} state={{ from: location }} />
     }
 
-    if (onlyAuth && user.name) {
+    if (onlyAuth && user) {
         const { from } = location.state ?? { from: { pathname: LINKS.main } }
         return <Navigate to={from} />
     }

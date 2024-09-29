@@ -23,15 +23,11 @@ export const ProfileEdit = () => {
     }
 
     const onReset = () => {
-        setFormValues(prev => ({ ...prev, name: user.name ?? '', email: user.email ?? '' }))
+        setFormValues(prev => ({ ...prev, name: user?.name ?? '', email: user?.email ?? '' }))
     }
 
     useEffect(() => {
-        dispatch(getUserInfo())
-    }, [])
-
-    useEffect(() => {
-        setFormValues(prev => ({ ...prev, name: user.name ?? '', email: user.email ?? '' }))
+        setFormValues(prev => ({ ...prev, name: user?.name ?? '', email: user?.email ?? '' }))
     }, [isLoading])
 
     return (

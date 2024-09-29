@@ -8,16 +8,13 @@ interface InitialStateType{
     user: {
         email: string | null,
         name: string | null,
-    }
+    } | null
     isLoading: boolean,
     isError: boolean,
 }
 
 const initialState:InitialStateType = {
-    user:{
-        email: null,
-        name: null,
-    },
+    user: null,
     isLoading: false,
     isError: false,
 }
@@ -250,8 +247,7 @@ export const userSlice = createSlice({
             state.isLoading = true
         })
         builder.addCase(logout.fulfilled, (state:InitialStateType) => {
-            state.user.name = null
-            state.user.email = null
+            state.user = null
             state.isLoading = false
 
             localStorage.removeItem('accessToken')
