@@ -21,6 +21,11 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
+    &__item {
+        color: unset;
+        text-decoration: none;
+    }
+
     &__price {
         display: flex;
         align-items: center;

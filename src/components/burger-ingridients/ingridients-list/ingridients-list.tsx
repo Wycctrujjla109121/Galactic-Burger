@@ -1,30 +1,21 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { IngridientsType } from "../../../types/ingridients-type"
 
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { useDrag } from "react-dnd"
 import { useDispatch, useSelector } from "react-redux"
-import { addSelectIngridient, changeNavigationMenuType, selectConstructorIngridients, selectIngridient, selectIngridientBun, selectIngridients, selectNavigationMenuType } from "../../../services/ingridients/ingridients-slice"
-import { Modal } from "../../modal"
-import { IngridientDetails } from "../ingridient-details"
+import { changeNavigationMenuType, selectConstructorIngridients, selectIngridientBun, selectIngridients, selectNavigationMenuType } from "../../../services/ingridients/ingridients-slice"
 import s from './ingridients-list.module.scss'
+import { Link, useLocation } from "react-router-dom"
 
 export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
-
-    const [isOpen, setIsOpen] = useState(false)
+    const location = useLocation()
 
     const dispatch = useDispatch()
     const ingridients = useSelector(selectIngridients)
     const ingridientsConstructor = useSelector(selectConstructorIngridients)
     const ingridientBun = useSelector(selectIngridientBun)
-    const currentSelectIngridient = useSelector(selectIngridient)
     const navigationMenuType = useSelector(selectNavigationMenuType)
-
-    const handleModalOpen = (item: IngridientsType) => {
-        setIsOpen(true)
-
-        dispatch(addSelectIngridient(item))
-    }
 
     const countingQuantity = (item: IngridientsType) => {
         if (item.type === 'bun' && ingridientBun && item._id === ingridientBun._id) {
@@ -46,7 +37,7 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
         }))
 
         return (
-            <div key={item._id} ref={drag} style={{ opacity: isOpacity }} onClick={() => handleModalOpen(item)} className={`ml-4 ${s.ingridient}`}>
+            <div key={item._id} ref={drag} style={{ opacity: isOpacity }} className={`ml-4 ${s.ingridient}`}>
                 <img className='ml-4 mr-4' src={item.image} alt={item.name} />
                 <div className={`mt-1 mb-1 ${s.ingridient__price}`}>
                     <p className='text text_type_digits-default'>{item.price}</p>
@@ -93,11 +84,6 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
             ref={wrapperRef}
             onScroll={handleScroll}
             className={s.wrapper}>
-            {currentSelectIngridient &&
-                <Modal withTitle isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
-                    <IngridientDetails />
-                </Modal>
-            }
             {
                 choiseName.map(type => (
                     <div
@@ -112,7 +98,9 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
                         <div className={s.ingridient__list}>
                             {
                                 ingridients.filter(ingridient => ingridient.type === type).map(item => (
-                                    <DraggableIngridient key={item._id} item={item} />
+                                    <Link className={s.ingridient__item} state={{ backgroundLocation: location }} to={`/ingridient/:${item._id}`} key={item._id}>
+                                        <DraggableIngridient item={item} />
+                                    </Link>
                                 ))
                             }
                         </div>

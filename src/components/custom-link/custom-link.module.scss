@@ -1,0 +1,13 @@
+@import '../../styles/variable.scss';
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+
+    &__link {
+        color: $blue-color;
+
+        text-decoration: none;
+    }
+}
