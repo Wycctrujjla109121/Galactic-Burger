@@ -1,7 +1,7 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, useState } from "react";
 
-export const InputPassword = ({ value, handleChange }: { value: string, handleChange: (value: ChangeEvent<HTMLInputElement>) => void }) => {
+export const InputPassword = ({ value, handleChange, autoComplete }: { value: string, handleChange: (value: ChangeEvent<HTMLInputElement>) => void, autoComplete?: string }) => {
     const [isPassword, setIspassword] = useState<'password' | 'text'>('password')
 
     const handleVisibleIcon = () => {
@@ -10,6 +10,7 @@ export const InputPassword = ({ value, handleChange }: { value: string, handleCh
 
     return (
         <Input
+            autoComplete={autoComplete}
             value={value ?? ''}
             placeholder="Пароль"
             name="password"

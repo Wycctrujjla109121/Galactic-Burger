@@ -3,9 +3,9 @@ import { CustomLink, InputPassword } from "../../components";
 import { LINKS } from "../../constants";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { resetPassword, selectError, selectIsLoading } from "../../services/user/user-slice";
-import { AppDispatch } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 
 export const ResetPasswordPage = () => {
     const [formValues, setFormValues] = useState({ password: '', token: '' })
@@ -13,7 +13,7 @@ export const ResetPasswordPage = () => {
     const navigate = useNavigate()
     const isLoading = useSelector(selectIsLoading)
     const isError = useSelector(selectError)
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -37,6 +37,7 @@ export const ResetPasswordPage = () => {
                         Восстановление пароля
                     </p>
                     <InputPassword
+                        autoComplete="new-password"
                         value={formValues.password}
                         handleChange={onChange}
                     />

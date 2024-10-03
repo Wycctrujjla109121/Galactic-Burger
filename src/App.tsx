@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import s from './App.module.scss';
 import { AppHeader, AuthUser, ModalPreloader, NotAuthUser } from './components';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from './services/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from './services/store';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ForgotPasswordPage, IngridientPage, LoginPage, MainPage, ModalPage, NotFoundPage, ProfilePage, RegistrationPage, ResetPasswordPage } from './pages';
 import { ProfileEdit } from './components/profile/profile-edit';
@@ -10,7 +10,7 @@ import { authChecked, selectIsLoading } from './services/user/user-slice';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 
 function App() {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
   const isLoading = useSelector(selectIsLoading)
   const location = useLocation()
   const state = location.state as { backgroundLocation?: Location }

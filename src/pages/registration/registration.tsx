@@ -2,14 +2,13 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CustomLink, InputPassword } from "../../components";
 import { LINKS } from "../../constants";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 import { registration } from "../../services/user/user-slice";
 
 export const RegistrationPage = () => {
     const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
 
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -29,6 +28,7 @@ export const RegistrationPage = () => {
                         Регистрация
                     </p>
                     <Input
+                        autoComplete="name"
                         value={formValues.name ?? ''}
                         name='name'
                         onChange={onChange}
@@ -36,6 +36,7 @@ export const RegistrationPage = () => {
                         placeholder='Имя'
                     />
                     <Input
+                        autoComplete="email"
                         value={formValues.email ?? ''}
                         name='email'
                         onChange={onChange}
@@ -43,6 +44,7 @@ export const RegistrationPage = () => {
                         placeholder='E-mail'
                     />
                     <InputPassword
+                        autoComplete="new-password"
                         value={formValues.password}
                         handleChange={onChange}
                     />

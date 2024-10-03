@@ -2,14 +2,13 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { CustomLink, InputPassword } from "../../components";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { LINKS } from "../../constants";
-import { useDispatch } from "react-redux";
 import { signIn } from "../../services/user/user-slice";
-import { AppDispatch } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 
 export const LoginPage = () => {
     const [formValues, setFormValues] = useState({ email: '', password: '' })
 
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()

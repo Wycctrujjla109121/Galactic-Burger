@@ -1,14 +1,14 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './profile-edit.module.scss'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectIsLoading, selectUser, updateUserInfo } from '../../../services/user/user-slice';
-import { AppDispatch } from '../../../services/store';
+import { useAppDispatch } from '../../../services/store';
 
 export const ProfileEdit = () => {
     const user = useSelector(selectUser)
     const isLoading = useSelector(selectIsLoading)
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
 
@@ -41,6 +41,7 @@ export const ProfileEdit = () => {
     return (
         <form className={s.wrapper} onSubmit={onSubmit} onReset={onReset}>
             <Input
+                autoComplete='name'
                 disabled={nameDisabled}
                 name='name'
                 type='text'
@@ -51,6 +52,7 @@ export const ProfileEdit = () => {
                 onIconClick={() => setNameDisabled(prev => !prev)}
             />
             <Input
+                autoComplete='email'
                 disabled={emailDisabled}
                 name='email'
                 type='email'
@@ -61,6 +63,7 @@ export const ProfileEdit = () => {
                 onIconClick={() => setEmailDisabled(prev => !prev)}
             />
             <Input
+                autoComplete='current-password'
                 disabled={PasswordDisabled}
                 name='password'
                 type='password'

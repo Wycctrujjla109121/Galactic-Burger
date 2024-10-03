@@ -2,14 +2,14 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { CustomLink } from "../../components";
 import { LINKS } from "../../constants";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../services/store";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../services/store";
 import { forgotPassword, selectIsLoading } from "../../services/user/user-slice";
 import { useNavigate } from "react-router";
 
 export const ForgotPasswordPage = () => {
     const [formValue, setFormValue] = useState('')
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const isLoading = useSelector(selectIsLoading)
 
@@ -35,6 +35,7 @@ export const ForgotPasswordPage = () => {
                         Восстановление пароля
                     </p>
                     <Input
+                        autoComplete="email"
                         value={formValue ?? ''}
                         name='email'
                         onChange={onChange}
