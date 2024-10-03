@@ -1,23 +1,20 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CustomLink, InputPassword } from "../../components";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { LINKS } from "../../constants";
 import { signIn } from "../../services/user/user-slice";
 import { useAppDispatch } from "../../services/store";
+import { useForm } from "../../hooks";
 
 export const LoginPage = () => {
-    const [formValues, setFormValues] = useState({ email: '', password: '' })
+    const { form, handleChangeForm } = useForm({ email: '', password: '' })
 
     const dispatch = useAppDispatch()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        dispatch(signIn(formValues))
-    }
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFormValues({ ...formValues, [e.target.name]: e.target.value })
+        dispatch(signIn({ email: form.email, password: form.password }))
     }
 
     return (
@@ -28,15 +25,15 @@ export const LoginPage = () => {
                         Вход
                     </p>
                     <Input
-                        value={formValues.email ?? ''}
+                        value={form.email ?? ''}
                         name='email'
-                        onChange={onChange}
+                        onChange={handleChangeForm}
                         type='email'
                         placeholder='E-mail'
                     />
                     <InputPassword
-                        value={formValues.password}
-                        handleChange={onChange}
+                        value={form.password}
+                        handleChange={handleChangeForm}
                     />
                     <Button htmlType={'submit'}>
                         Войти

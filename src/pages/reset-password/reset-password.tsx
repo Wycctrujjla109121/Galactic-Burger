@@ -1,14 +1,15 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CustomLink, InputPassword } from "../../components";
 import { LINKS } from "../../constants";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { resetPassword, selectError, selectIsLoading } from "../../services/user/user-slice";
 import { useAppDispatch } from "../../services/store";
+import { useForm } from "../../hooks";
 
 export const ResetPasswordPage = () => {
-    const [formValues, setFormValues] = useState({ password: '', token: '' })
+    const { form, handleChangeForm } = useForm({ password: '', token: '' })
 
     const navigate = useNavigate()
     const isLoading = useSelector(selectIsLoading)
@@ -18,11 +19,7 @@ export const ResetPasswordPage = () => {
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        dispatch(resetPassword(formValues))
-    }
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFormValues({ ...formValues, [e.target.name]: e.target.value })
+        dispatch(resetPassword({ password: form.password, token: form.token }))
     }
 
     useEffect(() => {
@@ -38,13 +35,13 @@ export const ResetPasswordPage = () => {
                     </p>
                     <InputPassword
                         autoComplete="new-password"
-                        value={formValues.password}
-                        handleChange={onChange}
+                        value={form.password}
+                        handleChange={handleChangeForm}
                     />
                     <Input
-                        value={formValues.token ?? ''}
+                        value={form.token ?? ''}
                         name='token'
-                        onChange={onChange}
+                        onChange={handleChangeForm}
                         type='text'
                         placeholder='Введите код из письма'
                     />

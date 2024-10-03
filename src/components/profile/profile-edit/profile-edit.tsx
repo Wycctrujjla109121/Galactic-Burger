@@ -1,36 +1,32 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './profile-edit.module.scss'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectIsLoading, selectUser, updateUserInfo } from '../../../services/user/user-slice';
+import { selectUser, updateUserInfo } from '../../../services/user/user-slice';
 import { useAppDispatch } from '../../../services/store';
+import { useForm } from '../../../hooks';
 
 export const ProfileEdit = () => {
     const user = useSelector(selectUser)
-    const isLoading = useSelector(selectIsLoading)
     const dispatch = useAppDispatch()
 
-    const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
+    const { form, handleChangeForm, resetChangeForm } = useForm({ name: user?.name ?? '', email: user?.email ?? '', password: '' })
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSaveVisible(true)
-        setFormValues({ ...formValues, [e.target.name]: [e.target.value].toString() })
+        handleChangeForm(e)
     }
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        dispatch(updateUserInfo(formValues))
+        dispatch(updateUserInfo({ name: form.name, email: form.email, password: form.password }))
     }
 
     const onReset = () => {
         setSaveVisible(false)
-        setFormValues(prev => ({ ...prev, name: user?.name ?? '', email: user?.email ?? '' }))
+        resetChangeForm()
     }
-
-    useEffect(() => {
-        setFormValues(prev => ({ ...prev, name: user?.name ?? '', email: user?.email ?? '' }))
-    }, [isLoading])
 
     const [nameDisabled, setNameDisabled] = useState(true)
     const [emailDisabled, setEmailDisabled] = useState(true)
@@ -46,7 +42,7 @@ export const ProfileEdit = () => {
                 name='name'
                 type='text'
                 placeholder='Имя'
-                value={formValues.name ?? ''}
+                value={form.name ?? ''}
                 icon='EditIcon'
                 onChange={handleChange}
                 onIconClick={() => setNameDisabled(prev => !prev)}
@@ -58,7 +54,7 @@ export const ProfileEdit = () => {
                 type='email'
                 placeholder='Логин'
                 icon='EditIcon'
-                value={formValues.email ?? ''}
+                value={form.email ?? ''}
                 onChange={handleChange}
                 onIconClick={() => setEmailDisabled(prev => !prev)}
             />
@@ -69,7 +65,7 @@ export const ProfileEdit = () => {
                 type='password'
                 placeholder='Пароль'
                 icon='EditIcon'
-                value={formValues.password ?? ''}
+                value={form.password ?? ''}
                 onChange={handleChange}
                 onIconClick={() => setPasswordDisabled(prev => !prev)}
             />

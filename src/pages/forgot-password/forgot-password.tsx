@@ -1,14 +1,15 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import { CustomLink } from "../../components";
 import { LINKS } from "../../constants";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../services/store";
 import { forgotPassword, selectIsLoading } from "../../services/user/user-slice";
 import { useNavigate } from "react-router";
+import { useForm } from "../../hooks";
 
 export const ForgotPasswordPage = () => {
-    const [formValue, setFormValue] = useState('')
+    const { form, handleChangeForm } = useForm({ email: '' })
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const isLoading = useSelector(selectIsLoading)
@@ -16,11 +17,7 @@ export const ForgotPasswordPage = () => {
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        dispatch(forgotPassword(formValue))
-    }
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFormValue(e.target.value)
+        dispatch(forgotPassword(form.email))
     }
 
     useEffect(() => {
@@ -36,9 +33,9 @@ export const ForgotPasswordPage = () => {
                     </p>
                     <Input
                         autoComplete="email"
-                        value={formValue ?? ''}
+                        value={form.email ?? ''}
                         name='email'
-                        onChange={onChange}
+                        onChange={handleChangeForm}
                         type='email'
                         placeholder='E-mail'
                     />

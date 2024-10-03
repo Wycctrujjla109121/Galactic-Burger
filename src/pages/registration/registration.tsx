@@ -1,23 +1,20 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { CustomLink, InputPassword } from "../../components";
 import { LINKS } from "../../constants";
 import { useAppDispatch } from "../../services/store";
 import { registration } from "../../services/user/user-slice";
+import { useForm } from "../../hooks";
 
 export const RegistrationPage = () => {
-    const [formValues, setFormValues] = useState({ name: '', email: '', password: '' })
+    const { form, handleChangeForm } = useForm({ name: '', email: '', password: '' })
 
     const dispatch = useAppDispatch()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        dispatch(registration(formValues))
-    }
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFormValues({ ...formValues, [e.target.name]: e.target.value })
+        dispatch(registration({ name: form.name, email: form.email, password: form.password }))
     }
 
     return (
@@ -29,24 +26,24 @@ export const RegistrationPage = () => {
                     </p>
                     <Input
                         autoComplete="name"
-                        value={formValues.name ?? ''}
+                        value={form.name ?? ''}
                         name='name'
-                        onChange={onChange}
+                        onChange={handleChangeForm}
                         type='text'
                         placeholder='Имя'
                     />
                     <Input
                         autoComplete="email"
-                        value={formValues.email ?? ''}
+                        value={form.email ?? ''}
                         name='email'
-                        onChange={onChange}
+                        onChange={handleChangeForm}
                         type='email'
                         placeholder='E-mail'
                     />
                     <InputPassword
                         autoComplete="new-password"
-                        value={formValues.password}
-                        handleChange={onChange}
+                        value={form.password}
+                        handleChange={handleChangeForm}
                     />
                     <Button htmlType={'submit'}>
                         Зарегистрироваться
