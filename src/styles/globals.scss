@@ -6,4 +6,39 @@ html {
 
         box-sizing: border-box;
     }
+
+    height: 100%;
+}
+
+#root {
+    height: inherit;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
+    &__content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 80px;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 24px;
+    }
+
+    &__description {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 16px;
+    }
 }

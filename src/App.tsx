@@ -1,30 +1,55 @@
 import { useEffect } from 'react';
 import s from './App.module.scss';
-import { AppHeader, BurgerConstructor, BurgerIngridients } from './components';
-import { useDispatch } from 'react-redux';
+import { AppHeader, AuthUser, ModalPreloader, NotAuthUser } from './components';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from './services/store';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { ForgotPasswordPage, IngridientPage, LoginPage, MainPage, ModalPage, NotFoundPage, ProfilePage, RegistrationPage, ResetPasswordPage } from './pages';
+import { ProfileEdit } from './components/profile/profile-edit';
+import { authChecked, selectIsLoading } from './services/user/user-slice';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
-import { AppDispatch } from './services/store';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
-
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
+  const isLoading = useSelector(selectIsLoading)
+  const location = useLocation()
+  const state = location.state as { backgroundLocation?: Location }
 
   useEffect(() => {
+    dispatch(authChecked(dispatch))
     dispatch(fetchIngridients())
-  }, [dispatch])
+  }, [])
+
+  if (isLoading) {
+    return <ModalPreloader />
+  }
 
   return (
-    <div>
+    <div className={s.wrapper}>
       <AppHeader />
-      <main className={s.main}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngridients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
-    </div>
+      <Routes location={state?.backgroundLocation || location}>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/login' element={<NotAuthUser page={<LoginPage />} />} />
+        <Route path='/registration' element={<NotAuthUser page={<RegistrationPage />} />} />
+        <Route path='/forgot-password' element={<NotAuthUser page={<ForgotPasswordPage />} />} />
+        <Route path='/reset-password' element={<ResetPasswordPage />} />
+        <Route path='/order' element={<>Тут списов заказов</>} />
+        <Route path='/ingridient/:id' element={<IngridientPage />} />
+        <Route path='/profile' element={<AuthUser page={<ProfilePage />} />} >
+          <Route index element={<ProfileEdit />} />
+          <Route path='orders' element={<>Профиль история заказов</>} />
+          <Route path='*' element={<>Такого маршрута не существует</>} />
+        </Route>
+        <Route path='*' element={<NotFoundPage />} />
+      </Routes>
+
+      {
+        state?.backgroundLocation &&
+        <Routes>
+          <Route path='/ingridient/:id' element={<ModalPage />} />
+        </Routes>
+      }
+    </div >
   );
 }
 

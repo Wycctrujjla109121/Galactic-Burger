@@ -2,9 +2,9 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import { BurgerConstructorLayout } from './burger-constructor-layout';
 
 import { nanoid } from '@reduxjs/toolkit';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
     addBunIngridient,
     addIngridient,
@@ -13,22 +13,26 @@ import {
     removeOrderDetailAndConstructorIngridient,
     selectConstructorIngridients,
     selectIngridientBun,
-    selectOrderDetails
 } from '../../services/ingridients/ingridients-slice';
 import { IngridientsType } from '../../types/ingridients-type';
 import { Modal } from '../modal';
 import s from './burger-constructor.module.scss';
 import { OrderDetails } from './order-details';
 import { DraggbleIngridient } from './draggble-ingridient';
-import { AppDispatch } from '../../services/store';
+import { useAppDispatch } from '../../services/store';
+import { selectUser } from '../../services/user/user-slice';
+import { useNavigate } from 'react-router';
+import { LINKS } from '../../constants';
 
 export const BurgerConstructor = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const constructorIngridients = useSelector(selectConstructorIngridients)
     const ingridientBun = useSelector(selectIngridientBun)
-    const orderDetail = useSelector(selectOrderDetails)
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
+
+    const user = useSelector(selectUser)
+    const navigate = useNavigate()
 
     const countPrice = useMemo(() => {
         const priceConstructor = constructorIngridients.reduce((acc, i) => acc += i.price, 0)
@@ -61,20 +65,22 @@ export const BurgerConstructor = () => {
             orderIngridients.unshift(ingridientBun?._id)
         }
 
-        dispatch(postOrder(orderIngridients))
+        if (user) {
+            setIsOpen(true)
+            dispatch(postOrder(orderIngridients))
+        } else {
+            navigate(LINKS.login)
+        }
     }
 
-    useEffect(() => {
-        orderDetail?.success === true && setIsOpen(true)
-    }, [orderDetail])
-
-    useEffect(() => {
-        isOpen === false && dispatch(removeOrderDetailAndConstructorIngridient())
-    }, [dispatch, isOpen])
+    const handleClosePopup = () => {
+        setIsOpen(false)
+        dispatch(removeOrderDetailAndConstructorIngridient())
+    }
 
     return (
         <section className={`${s.wrapper} mt-25`}>
-            <Modal isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
+            <Modal isOpen={isOpen} setIsOpen={handleClosePopup}>
                 <OrderDetails />
             </Modal>
             <div className={s.wrapper__content} ref={dropWrapper} style={{ border: isCanDrop ? '6px dotted gray' : '6px dotted transparent' }}>
