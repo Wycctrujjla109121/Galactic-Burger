@@ -1,13 +1,12 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './profile-edit.module.scss'
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { selectUser, updateUserInfo } from '../../../services/user/user-slice';
-import { useAppDispatch } from '../../../services/store';
+import { useAppDispatch, useAppSelector } from '../../../services/store';
 import { useForm } from '../../../hooks';
 
 export const ProfileEdit = () => {
-    const user = useSelector(selectUser)
+    const user = useAppSelector(selectUser)
     const dispatch = useAppDispatch()
 
     const { form, handleChangeForm, resetChangeForm } = useForm({ name: user?.name ?? '', email: user?.email ?? '', password: '' })

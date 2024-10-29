@@ -3,17 +3,16 @@ import { CustomLink, InputPassword } from "../../components";
 import { LINKS } from "../../constants";
 import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
 import { resetPassword, selectError, selectIsLoading } from "../../services/user/user-slice";
-import { useAppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { useForm } from "../../hooks";
 
 export const ResetPasswordPage = () => {
     const { form, handleChangeForm } = useForm({ password: '', token: '' })
 
     const navigate = useNavigate()
-    const isLoading = useSelector(selectIsLoading)
-    const isError = useSelector(selectError)
+    const isLoading = useAppSelector(selectIsLoading)
+    const isError = useAppSelector(selectError)
     const dispatch = useAppDispatch()
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {

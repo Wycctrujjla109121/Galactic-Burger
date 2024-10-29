@@ -1,16 +1,16 @@
 import { useParams } from "react-router";
 import { IngridientDetails } from "../../components/burger-ingridients/ingridient-details";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { addSelectIngridient, selectIngridients } from "../../services/ingridients/ingridients-slice";
 
 import s from './ingridient.module.scss'
+import { useAppDispatch, useAppSelector } from "../../services/store";
 
 export const IngridientPage = () => {
     const { id } = useParams()
 
-    const ingridients = useSelector(selectIngridients)
-    const dispatch = useDispatch()
+    const ingridients = useAppSelector(selectIngridients)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const ingridient = ingridients.find(item => item._id === id?.replace(':', ''))

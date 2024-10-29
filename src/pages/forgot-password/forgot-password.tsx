@@ -2,8 +2,7 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import { FormEvent, useEffect } from "react";
 import { CustomLink } from "../../components";
 import { LINKS } from "../../constants";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { forgotPassword, selectIsLoading } from "../../services/user/user-slice";
 import { useNavigate } from "react-router";
 import { useForm } from "../../hooks";
@@ -12,7 +11,7 @@ export const ForgotPasswordPage = () => {
     const { form, handleChangeForm } = useForm({ email: '' })
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const isLoading = useSelector(selectIsLoading)
+    const isLoading = useAppSelector(selectIsLoading)
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
