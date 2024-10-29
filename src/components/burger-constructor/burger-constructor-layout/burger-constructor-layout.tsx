@@ -1,10 +1,10 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './burger-constructor-layout.module.scss'
-import { useSelector } from 'react-redux';
 import { selectIngridientBun } from '../../../services/ingridients/ingridients-slice';
+import { useAppSelector } from '../../../services/store';
 
 export const BurgerConstructorLayout = ({ children }: { children: React.ReactNode }) => {
-    const ingridientBun = useSelector(selectIngridientBun)
+    const ingridientBun = useAppSelector(selectIngridientBun)
 
     return (
         <div className={s.wrapper}>

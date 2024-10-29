@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { Modal } from "../../components";
 import { IngridientDetails } from "../../components/burger-ingridients/ingridient-details";
-import { useSelector } from "react-redux";
 import { addSelectIngridient, selectIngridients } from "../../services/ingridients/ingridients-slice";
 import { useNavigate, useParams } from "react-router";
-import { useAppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 
 export const ModalPage = () => {
     const [isOpen, setIsOpen] = useState(true)
 
     const navigate = useNavigate()
     const { id } = useParams()
-    const ingridients = useSelector(selectIngridients)
+    const ingridients = useAppSelector(selectIngridients)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

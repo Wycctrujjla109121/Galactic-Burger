@@ -1,11 +1,11 @@
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef } from "react";
 import { DragLayerMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from "react-dnd";
-import { useDispatch } from "react-redux";
 import { removeIngridient } from "../../../services/ingridients/ingridients-slice";
 import { ConstructorIngridientsType, DragItemType } from "../../../types/ingridients-type";
 
 import s from './draggble-ingridient.module.scss';
+import { useAppDispatch } from "../../../services/store";
 
 export const DraggbleIngridient = (
     {
@@ -17,7 +17,7 @@ export const DraggbleIngridient = (
         index: number,
         moveIngridient: (currentElementIndex: number, hoverIndex: number) => void
     }) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const ref = useRef<HTMLDivElement>(null)
 
     const [{ handlerId }, drop] = useDrop({

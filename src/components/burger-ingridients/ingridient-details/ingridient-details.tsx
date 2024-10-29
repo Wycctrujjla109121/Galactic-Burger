@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
 
 import s from './ingridient-details.module.scss'
 import { selectIngridient } from "../../../services/ingridients/ingridients-slice";
+import { useAppSelector } from "../../../services/store";
 
 export const IngridientDetails = () => {
-    const ingridient = useSelector(selectIngridient)
+    const ingridient = useAppSelector(selectIngridient)
 
     return (
         <>
