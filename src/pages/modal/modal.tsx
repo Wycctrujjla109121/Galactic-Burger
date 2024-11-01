@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Modal } from "../../components";
-import { IngridientDetails } from "../../components/burger-ingridients/ingridient-details";
 import { useSelector } from "react-redux";
 import { addSelectIngridient, selectIngridients } from "../../services/ingridients/ingridients-slice";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch } from "../../services/store";
 
-export const ModalPage = () => {
+export const ModalPage = ({ content, title }: { content: React.ReactNode, title?: React.ReactNode }) => {
     const [isOpen, setIsOpen] = useState(true)
 
     const navigate = useNavigate()
@@ -28,8 +27,8 @@ export const ModalPage = () => {
     }
 
     return (
-        <Modal withTitle isOpen={isOpen} setIsOpen={handleClosePopup}>
-            <IngridientDetails />
+        <Modal title={title} isOpen={isOpen} setIsOpen={handleClosePopup}>
+            {content}
         </Modal>
     );
 };

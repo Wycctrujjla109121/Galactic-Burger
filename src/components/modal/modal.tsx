@@ -5,16 +5,16 @@ import { ModalOverlay } from '../modal-overlay';
 import { createPortal } from 'react-dom';
 
 export const Modal = ({
-    withTitle,
+    title,
     children,
     isOpen,
-    setIsOpen
+    setIsOpen,
 }:
     {
-        withTitle?: boolean,
+        title?: React.ReactNode,
         children: React.ReactNode,
         isOpen: boolean,
-        setIsOpen: () => void
+        setIsOpen: () => void,
     }) => {
 
     const handleEscape = (e: KeyboardEvent) => {
@@ -40,9 +40,12 @@ export const Modal = ({
         <div className={[s.wrapper, isOpen ? s.wrapper_open : s.wrapper_close].join(' ')}>
             <div className={s.wrapper__info}>
                 <div className={`pt-15 pr-10 pl-10 ${s.wrapper__header}`}>
-                    <p className="text text_type_main-large">
-                        {withTitle ? 'Детали ингридиента' : ''}
-                    </p>
+                    {/* {
+                        <p className="text text_type_main-large">
+                            {title ?? ''}
+                        </p>
+                    } */}
+                    {title ?? ''}
                     <button onClick={handleClose} className={s.wrapper__button}>
                         <CloseIcon type={'primary'} />
                     </button>

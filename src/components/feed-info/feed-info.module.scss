@@ -1,0 +1,22 @@
+@import '../../styles/variable.scss';
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 60px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 36px;
+    }
+
+    &__green {
+        color: $green-color;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+}

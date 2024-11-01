@@ -1,0 +1,12 @@
+.wrapper {
+    width: 100%;
+    max-width: 1240px;
+
+    margin: 0 auto;
+
+    &__content {
+        display: grid;
+        grid-template-columns: minmax(608px, 1fr) minmax(508px, 1fr);
+        column-gap: 60px;
+    }
+}
