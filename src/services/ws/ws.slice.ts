@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { API_Websocket_URL } from "../../constants";
-import { IWebSocketResponse } from "../../types/websocket.type";
+import { API_URL, API_Websocket_URL } from "../../constants";
+import { IOrdersIngridients, IWebSocketResponse } from "../../types/websocket.type";
+import { request } from "../../utils/request";
 
 interface InitialStateType {
     webSocket: IWebSocketResponse
@@ -8,6 +9,7 @@ interface InitialStateType {
     isError: boolean;
     isLoading: boolean;
     socket: WebSocket | null;
+    order: IOrdersIngridients | null
 }
 
 const initialState: InitialStateType = {
@@ -21,6 +23,7 @@ const initialState: InitialStateType = {
     isError: false,
     isLoading: false,
     socket: null,
+    order: null
 };
 
 export const webSocket = createAsyncThunk(
@@ -49,6 +52,15 @@ export const webSocket = createAsyncThunk(
     }
 );
 
+export const fetchOrderById = createAsyncThunk(
+    'fetchOrderById',
+    async(orderId: string) => {
+      const data = await request(`${API_URL}/orders/${orderId}`, {method: 'GET'})
+
+      return data.orders[0]
+    } 
+)
+
 export const webSocketSlice = createSlice({
     name: 'webSocket',
     initialState: initialState,
@@ -72,7 +84,8 @@ export const webSocketSlice = createSlice({
     },
     selectors: {
         selectSocket: (state) => state.webSocket,
-        selectOrdersSocket: (state) => state.webSocket.orders
+        selectOrdersSocket: (state) => state.webSocket.orders,
+        selectOdrerById: (state) => state.order,
     },
     extraReducers: (builder) => {
         builder.addCase(webSocket.pending, (state: InitialStateType) => {
@@ -85,11 +98,23 @@ export const webSocketSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
         });
-    },
+
+        builder.addCase(fetchOrderById.pending, (state: InitialStateType) => {
+            state.isLoading = true;
+        })
+        builder.addCase(fetchOrderById.fulfilled, (state: InitialStateType, action: PayloadAction<IOrdersIngridients>) => {
+            state.isLoading = false
+            state.order = action.payload
+        })
+        builder.addCase(fetchOrderById.rejected, (state: InitialStateType) => {
+            state.isLoading = false
+            state.isError = true
+        })
+    }
 });
 
 export default webSocketSlice.reducer;
 
 export const { reducerConnectionOpened, reducerMessage, reducerConnectionClosed, reducerConnectionError } = webSocketSlice.actions;
 
-export const { selectSocket, selectOrdersSocket } = webSocketSlice.selectors
+export const { selectSocket, selectOrdersSocket, selectOdrerById } = webSocketSlice.selectors
