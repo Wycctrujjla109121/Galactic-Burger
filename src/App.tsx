@@ -9,6 +9,7 @@ import { ProfileEdit } from './components/profile/profile-edit';
 import { authChecked, selectIsLoading } from './services/user/user-slice';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { IngridientDetails } from './components/burger-ingridients/ingridient-details';
+import { webSocket } from './services/ws/ws.slice';
 
 function App() {
   const dispatch = useAppDispatch()
@@ -19,6 +20,7 @@ function App() {
   useEffect(() => {
     dispatch(authChecked(dispatch))
     dispatch(fetchIngridients())
+    dispatch(webSocket({}))
   }, [])
 
   if (isLoading) {

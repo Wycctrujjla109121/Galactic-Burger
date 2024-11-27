@@ -7,6 +7,7 @@
 
     &__header {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         column-gap: 36px;
     }
@@ -18,5 +19,10 @@
     &__info {
         display: flex;
         flex-direction: column;
+    }
+
+    &__list {
+        grid-template-columns: auto;
+        column-count: 5;
     }
 }
