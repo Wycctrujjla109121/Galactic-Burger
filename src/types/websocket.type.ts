@@ -5,7 +5,6 @@ export interface IWebSocketResponse {
     orders: IOrders[] | null
     total: number,
     totalToday: number,
-    order: IOrders | null
 }
 
 export interface IOrdersIngridients {

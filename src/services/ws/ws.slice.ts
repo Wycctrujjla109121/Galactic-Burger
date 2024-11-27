@@ -16,7 +16,6 @@ const initialState: InitialStateType = {
         orders: null,
         total: 0,
         totalToday: 0,
-        order: null
     },
     isConnection: false,
     isError: false,
@@ -26,8 +25,8 @@ const initialState: InitialStateType = {
 
 export const webSocket = createAsyncThunk(
     'websocket',
-    async ({ orderId }:{orderId?: string}, { dispatch }) => {
-        const socket = new WebSocket(`${API_Websocket_URL}/orders/${orderId ??'all'}`);
+    async (_, { dispatch }) => {
+        const socket = new WebSocket(`${API_Websocket_URL}/orders/all`);
 
         socket.onopen = () => {
             dispatch(webSocketSlice.actions.reducerConnectionOpened());

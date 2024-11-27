@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     dispatch(authChecked(dispatch))
     dispatch(fetchIngridients())
-    dispatch(webSocket({}))
+    dispatch(webSocket())
   }, [])
 
   if (isLoading) {
