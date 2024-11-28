@@ -3,12 +3,14 @@ import ingridientsSlice from "./ingridients/ingridients-slice";
 import userSlice from "./user/user-slice";
 import { useDispatch } from "react-redux";
 import webSocketSlice from "./ws/ws.slice";
+import webSocketSliceAuthorized from "./ws/ws.slice-authorized";
 
 export const store = configureStore({
     reducer: {
         ingridients: ingridientsSlice,
         user: userSlice,
-        webSocket: webSocketSlice
+        webSocket: webSocketSlice,
+        webSocketAuthorized: webSocketSliceAuthorized,
     },
 })
 

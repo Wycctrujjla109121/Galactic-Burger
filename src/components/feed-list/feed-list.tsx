@@ -13,6 +13,7 @@ export const FeedList = ({ orders }: { orders?: IOrders[] | null }) => {
             {
                 orders.map((item, index) => (
                     <FeedCard
+                        status={item.status}
                         key={item._id}
                         orderNumber={item.number}
                         date={item.updatedAt}

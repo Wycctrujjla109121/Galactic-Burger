@@ -5,8 +5,9 @@ import s from './feed.module.scss'
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIngridients } from '../../services/ingridients/ingridients-slice';
+import { ORDER_STATUS } from '../../constants/status';
 
-export const FeedCard = ({ orderNumber, date, ingridients, name }: CardOrderType) => {
+export const FeedCard = ({ orderNumber, date, ingridients, name, status }: CardOrderType) => {
     const locaton = useLocation()
 
     const ingridientsList = useSelector(selectIngridients)
@@ -20,7 +21,8 @@ export const FeedCard = ({ orderNumber, date, ingridients, name }: CardOrderType
                     date={new Date(date)}
                 />
             </div>
-            <p className="text text_type_main-medium mt-6 mb-6">{name}</p>
+            <p className="text text_type_main-medium mt-6 mb-2">{name}</p>
+            <p className={`text text_type_main-small mb-6`}>{ORDER_STATUS[status]}</p>
             <div className={`${s.card__content}`}>
                 <div className={s.card__content__list}>
                     {

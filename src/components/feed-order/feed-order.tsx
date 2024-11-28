@@ -7,8 +7,9 @@ import { ORDER_STATUS } from '../../constants/status';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../services/store';
 import { selectIngridients } from '../../services/ingridients/ingridients-slice';
+import { Preloader } from '../preloader';
 
-export const FeedOrder = ({ withTitle }: { withTitle?: boolean }) => {
+export const FeedOrder = () => {
     const { id } = useParams()
     const replaceId = id?.replace(':', '')
     const orderById = useSelector(selectOdrerById)
@@ -19,21 +20,20 @@ export const FeedOrder = ({ withTitle }: { withTitle?: boolean }) => {
         if (replaceId) {
             dispatch(fetchOrderById(replaceId))
         }
-    }, [])
+    }, [dispatch, replaceId])
 
     const findIngridients = ingridients.filter(ingridient => (orderById?.ingredients as unknown as string[])?.includes(ingridient._id))
 
     if (!orderById) {
         return (
             // Заглушка
-            <>Такого заказа нет</>
+            <Preloader />
         )
     }
 
     return (
-        <div className={s.wrapper}>
+        <div className={`${s.wrapper} mb-15`}>
             <div className={s.header}>
-                {withTitle && <p className={`text text_type_digits-default ${s.header__text}`}>#{orderById.number}</p>}
                 <p className="text text_type_main-medium">{orderById.name}</p>
                 <p className={`text text_type_main-small ${s.header__text_color}`}>{ORDER_STATUS[orderById.status]}</p>
             </div>

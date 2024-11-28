@@ -26,33 +26,33 @@ const initialState: InitialStateType = {
     order: null
 };
 
-export const webSocket = createAsyncThunk(
-    'websocket',
+export const webSocketAuthorized = createAsyncThunk(
+    'webSocketAuthorized',
     async (_, { dispatch }) => {
-        const socket = new WebSocket(`${API_Websocket_URL}/orders/all`);
+        const socket = new WebSocket(`${API_Websocket_URL}/orders?token=${localStorage.getItem('accessToken')}`);
 
         socket.onopen = () => {
-            dispatch(webSocketSlice.actions.reducerConnectionOpened());
+            dispatch(webSocketSliceAuthorized.actions.reducerConnectionOpened());
         };
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            dispatch(webSocketSlice.actions.reducerMessage(data));
+            dispatch(webSocketSliceAuthorized.actions.reducerMessage(data));
         };
 
         socket.onclose = () => {
-            dispatch(webSocketSlice.actions.reducerConnectionClosed());
+            dispatch(webSocketSliceAuthorized.actions.reducerConnectionClosed());
         };
 
         socket.onerror = () => {
-            dispatch(webSocketSlice.actions.reducerConnectionError());
+            dispatch(webSocketSliceAuthorized.actions.reducerConnectionError());
         };
 
         return socket;
     }
 );
 
-export const fetchOrderById = createAsyncThunk(
+export const fetchOrderByIdAuthorized = createAsyncThunk(
     'fetchOrderById',
     async(orderId: string) => {
         const data = await request(`${API_URL}/orders/${orderId}`, {
@@ -65,8 +65,8 @@ export const fetchOrderById = createAsyncThunk(
     } 
 )
 
-export const webSocketSlice = createSlice({
-    name: 'webSocket',
+export const webSocketSliceAuthorized = createSlice({
+    name: 'webSocketAuthorized',
     initialState: initialState,
     reducers: {
         reducerConnectionOpened: (state) => {
@@ -90,31 +90,32 @@ export const webSocketSlice = createSlice({
         }
     },
     selectors: {
-        selectSocket: (state) => state.webSocket,
-        selectOrdersSocket: (state) => state.webSocket.orders,
-        selectOdrerById: (state) => state.order,
+        selectSocketAuthorized: (state) => state.webSocket,
+        selectOrdersSocketAuthorized: (state) => state.webSocket.orders,
+        selectOdrerByIdAuthorized: (state) => state.order,
+        selectIsLoadingAuthorized: (state) => state.isLoading,
     },
     extraReducers: (builder) => {
-        builder.addCase(webSocket.pending, (state: InitialStateType) => {
+        builder.addCase(webSocketAuthorized.pending, (state: InitialStateType) => {
             state.isLoading = true;
         });
-        builder.addCase(webSocket.fulfilled, (state: InitialStateType) => {
+        builder.addCase(webSocketAuthorized.fulfilled, (state: InitialStateType) => {
             state.isLoading = false;
         });
-        builder.addCase(webSocket.rejected, (state) => {
+        builder.addCase(webSocketAuthorized.rejected, (state) => {
             state.isLoading = false;
             state.isError = true;
         });
 
-        builder.addCase(fetchOrderById.pending, (state: InitialStateType) => {
+        builder.addCase(fetchOrderByIdAuthorized.pending, (state: InitialStateType) => {
             state.isLoading = true;
             state.order = null
         })
-        builder.addCase(fetchOrderById.fulfilled, (state: InitialStateType, action: PayloadAction<IOrdersIngridients>) => {
+        builder.addCase(fetchOrderByIdAuthorized.fulfilled, (state: InitialStateType, action: PayloadAction<IOrdersIngridients>) => {
             state.isLoading = false
             state.order = action.payload
         })
-        builder.addCase(fetchOrderById.rejected, (state: InitialStateType) => {
+        builder.addCase(fetchOrderByIdAuthorized.rejected, (state: InitialStateType) => {
             state.isLoading = false
             state.isError = true
             state.order = null
@@ -122,8 +123,8 @@ export const webSocketSlice = createSlice({
     }
 });
 
-export default webSocketSlice.reducer;
+export default webSocketSliceAuthorized.reducer;
 
-export const { reducerRemoveIngridientById } = webSocketSlice.actions;
+export const { reducerRemoveIngridientById } = webSocketSliceAuthorized.actions;
 
-export const { selectSocket, selectOrdersSocket, selectOdrerById } = webSocketSlice.selectors
+export const { selectSocketAuthorized, selectOrdersSocketAuthorized, selectOdrerByIdAuthorized, selectIsLoadingAuthorized } = webSocketSliceAuthorized.selectors

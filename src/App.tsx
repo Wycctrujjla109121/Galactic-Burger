@@ -9,7 +9,8 @@ import { ProfileEdit } from './components/profile/profile-edit';
 import { authChecked, selectIsLoading } from './services/user/user-slice';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { IngridientDetails } from './components/burger-ingridients/ingridient-details';
-import { webSocket } from './services/ws/ws.slice';
+import { selectOdrerById, webSocket } from './services/ws/ws.slice';
+import { webSocketAuthorized } from './services/ws/ws.slice-authorized';
 
 function App() {
   const dispatch = useAppDispatch()
@@ -21,17 +22,25 @@ function App() {
     dispatch(authChecked(dispatch))
     dispatch(fetchIngridients())
     dispatch(webSocket())
+    dispatch(webSocketAuthorized())
   }, [])
 
   if (isLoading) {
     return <ModalPreloader />
   }
 
-  const OrderNumber = () => (
-    <p className="text text_type_digits-default pt-6 pb-6">
-      #{location.pathname.split('/:').slice(1, 2).join()}
-    </p>
-  )
+  const OrderNumber = () => {
+    const orderById = useSelector(selectOdrerById)
+    if (!orderById) {
+      return <></>
+    }
+
+    return (
+      <p className="text text_type_digits-default pt-6 pb-6">
+        #{orderById?.number}
+      </p>
+    )
+  }
 
   return (
     <div className={s.wrapper}>
@@ -61,7 +70,6 @@ function App() {
         state?.backgroundLocation &&
         <Routes>
           <Route path='/ingridient/:id' element={<ModalPage title='Детали ингридиента' content={<IngridientDetails />} />} />
-          {/* Возможно потом title пофиксить */}
           <Route path='/feed/:id' element={<ModalPage title={<OrderNumber />} content={<FeedOrder />} />} />
           <Route path='/profile/orders/:id' element={<ModalPage title={<OrderNumber />} content={<FeedOrder />} />} />
         </Routes>
