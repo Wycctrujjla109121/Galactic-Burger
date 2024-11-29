@@ -14,7 +14,7 @@ export const BurgerConstructorLayout = ({ children }: { children: React.ReactNod
                     extraClass='ml-8'
                     type="top"
                     isLocked={true}
-                    text={ingridientBun.name}
+                    text={ingridientBun.name + ' (верх)'}
                     price={ingridientBun.price}
                     thumbnail={ingridientBun.image}
                 />
@@ -28,7 +28,7 @@ export const BurgerConstructorLayout = ({ children }: { children: React.ReactNod
                     extraClass='ml-8'
                     type="bottom"
                     isLocked={true}
-                    text={ingridientBun.name}
+                    text={ingridientBun.name + ' (низ)'}
                     price={ingridientBun.price}
                     thumbnail={ingridientBun.image}
                 />
