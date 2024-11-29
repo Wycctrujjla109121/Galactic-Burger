@@ -106,17 +106,6 @@ export const webSocketSlice = createSlice({
         selectIsLoading: (state) => state.isLoadingSocket
     },
     extraReducers: (builder) => {
-        builder.addCase(webSocket.pending, (state: InitialStateType) => {
-           state.isLoading = true;
-        });
-        builder.addCase(webSocket.fulfilled, (state: InitialStateType) => {
-            state.isLoading = false;
-        });
-        builder.addCase(webSocket.rejected, (state) => {
-            state.isLoading = false;
-            state.isError = true;
-        });
-
         builder.addCase(fetchOrderById.pending, (state: InitialStateType) => {
             state.isLoading = true;
             state.order = null
