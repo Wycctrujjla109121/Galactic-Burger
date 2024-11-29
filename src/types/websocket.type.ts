@@ -23,8 +23,8 @@ export interface IOrders {
     status: IOrderStatus,
     name: string,
     number: number,
-    createdAt: string,
-    updatedAt: string
+    createdAt: Date,
+    updatedAt: Date
 }
 
 export type IOrderStatus = 'done'| 'create' | 'pending'

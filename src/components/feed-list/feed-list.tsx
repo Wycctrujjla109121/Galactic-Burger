@@ -11,12 +11,12 @@ export const FeedList = ({ orders }: { orders?: IOrders[] | null }) => {
     return (
         <div className={s.list}>
             {
-                orders.map((item, index) => (
+                orders.map((item) => (
                     <FeedCard
                         status={item.status}
                         key={item._id}
                         orderNumber={item.number}
-                        date={item.updatedAt}
+                        date={item.createdAt}
                         name={item.name}
                         ingridients={item.ingredients}
                     />

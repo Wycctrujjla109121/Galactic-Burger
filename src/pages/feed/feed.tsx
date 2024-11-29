@@ -5,6 +5,7 @@ import { selectSocket } from '../../services/ws/ws.slice';
 
 export const FeedsPage = () => {
     const data = useSelector(selectSocket);
+    const sortedOrders = data.orders && [...data.orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return (
         <div className={s.wrapper}>
@@ -13,7 +14,7 @@ export const FeedsPage = () => {
             </p>
 
             <div className={s.wrapper__content}>
-                <FeedList orders={data.orders} />
+                <FeedList orders={sortedOrders} />
                 <FeedInfo orders={data.orders} ordersFullTime={data.total} ordersInDay={data.totalToday} />
             </div>
         </div>
