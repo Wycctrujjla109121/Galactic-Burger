@@ -1,35 +1,43 @@
 import { useSelector } from 'react-redux';
-import { FeedList } from '../../components';
+import { FeedList, Preloader } from '../../components';
 import s from './profile-feed.module.scss'
-import { fetchOrderByIdAuthorized, reducerSocketCloseAuthorized, selectSocketAuthorized, webSocketAuthorized } from '../../services/ws/ws.slice-authorized';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../services/store';
 import { useParams } from 'react-router';
+import { fetchOrderById, reducerSocketClose, selectIsLoading, selectOrdersSocket, selectSocket, webSocket } from '../../services/ws/ws.slice';
+import { API_Websocket_URL } from '../../constants';
 
 export const ProfileFeedPage = () => {
     const { id } = useParams()
     const replaceId = id?.replace(':', '')
     const dispatch = useAppDispatch();
-    const selectOrderByIdAuthorized = useSelector(selectSocketAuthorized)
-    const ordersSort = selectOrderByIdAuthorized.orders && [...selectOrderByIdAuthorized.orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const selectOrders = useSelector(selectOrdersSocket)
+    const isLoadingSocket = useSelector(selectIsLoading)
+    const ordersSort = selectOrders && [...selectOrders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     useEffect(() => {
         if (replaceId) {
-            dispatch(fetchOrderByIdAuthorized(replaceId))
+            dispatch(fetchOrderById(replaceId))
         }
     }, [dispatch, replaceId])
 
     useEffect(() => {
-        dispatch(webSocketAuthorized())
+        dispatch(webSocket({ url: `${API_Websocket_URL}/orders?token=${localStorage.getItem('accessToken')}` }))
 
         return () => {
-            dispatch(reducerSocketCloseAuthorized());
+            dispatch(reducerSocketClose());
         }
     }, [])
 
     return (
         <div className={s.wrapper}>
-            <FeedList orders={ordersSort} />
+            {
+                isLoadingSocket
+                    ? <div className={s.wrapper__preloader}>
+                        <Preloader />
+                    </div>
+                    : <FeedList orders={ordersSort} />
+            }
         </div>
     );
 };

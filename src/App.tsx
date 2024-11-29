@@ -52,7 +52,6 @@ function App() {
         <Route path='/profile' element={<AuthUser page={<ProfilePage />} />} >
           <Route index element={<ProfileEdit />} />
           <Route path='orders' element={<ProfileFeedPage />} />
-          {/* <Route path='orders/:id' element={<>Профиль история конкретного заказа заказов</>} /> */}
           <Route path='*' element={<>Такого маршрута не существует</>} />
         </Route>
         <Route path='/profile/orders/:id' element={<FeedOrderPage />} />
