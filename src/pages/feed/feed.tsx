@@ -1,11 +1,22 @@
 import { useSelector } from 'react-redux';
 import { FeedInfo, FeedList } from '../../components';
 import s from './feed.module.scss';
-import { selectSocket } from '../../services/ws/ws.slice';
+import { reducerSocketClose, selectSocket, webSocket } from '../../services/ws/ws.slice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../services/store';
 
 export const FeedsPage = () => {
+    const dispatch = useAppDispatch()
     const data = useSelector(selectSocket);
     const sortedOrders = data.orders && [...data.orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+    useEffect(() => {
+        dispatch(webSocket())
+
+        return () => {
+            dispatch(reducerSocketClose());
+        }
+    }, [])
 
     return (
         <div className={s.wrapper}>

@@ -87,6 +87,12 @@ export const webSocketSliceAuthorized = createSlice({
         },
         reducerRemoveIngridientById: (state: InitialStateType) => {
             state.order = null
+        },
+        reducerSocketCloseAuthorized: (state: InitialStateType) => {
+            if (state.socket) {
+                state.socket.close();
+                state.socket = null;
+            }
         }
     },
     selectors: {
@@ -125,6 +131,6 @@ export const webSocketSliceAuthorized = createSlice({
 
 export default webSocketSliceAuthorized.reducer;
 
-export const { reducerRemoveIngridientById } = webSocketSliceAuthorized.actions;
+export const { reducerRemoveIngridientById, reducerSocketCloseAuthorized } = webSocketSliceAuthorized.actions;
 
 export const { selectSocketAuthorized, selectOrdersSocketAuthorized, selectOdrerByIdAuthorized, selectIsLoadingAuthorized } = webSocketSliceAuthorized.selectors

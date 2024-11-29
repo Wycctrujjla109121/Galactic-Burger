@@ -87,6 +87,12 @@ export const webSocketSlice = createSlice({
         },
         reducerRemoveIngridientById: (state: InitialStateType) => {
             state.order = null
+        },
+        reducerSocketClose: (state: InitialStateType) => {
+            if (state.socket) {
+                state.socket.close();
+                state.socket = null;
+            }
         }
     },
     selectors: {
@@ -124,6 +130,6 @@ export const webSocketSlice = createSlice({
 
 export default webSocketSlice.reducer;
 
-export const { reducerRemoveIngridientById } = webSocketSlice.actions;
+export const { reducerRemoveIngridientById, reducerSocketClose } = webSocketSlice.actions;
 
 export const { selectSocket, selectOrdersSocket, selectOdrerById } = webSocketSlice.selectors

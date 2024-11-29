@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { FeedList } from '../../components';
 import s from './profile-feed.module.scss'
-import { fetchOrderByIdAuthorized, selectSocketAuthorized } from '../../services/ws/ws.slice-authorized';
+import { fetchOrderByIdAuthorized, reducerSocketCloseAuthorized, selectSocketAuthorized, webSocketAuthorized } from '../../services/ws/ws.slice-authorized';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../services/store';
 import { useParams } from 'react-router';
@@ -18,6 +18,14 @@ export const ProfileFeedPage = () => {
             dispatch(fetchOrderByIdAuthorized(replaceId))
         }
     }, [dispatch, replaceId])
+
+    useEffect(() => {
+        dispatch(webSocketAuthorized())
+
+        return () => {
+            dispatch(reducerSocketCloseAuthorized());
+        }
+    }, [])
 
     return (
         <div className={s.wrapper}>
