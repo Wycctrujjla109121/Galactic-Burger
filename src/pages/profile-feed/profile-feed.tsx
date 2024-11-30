@@ -1,18 +1,17 @@
-import { useSelector } from 'react-redux';
 import { FeedList, Preloader } from '../../components';
 import s from './profile-feed.module.scss'
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { useParams } from 'react-router';
-import { fetchOrderById, reducerSocketClose, selectIsLoading, selectOrdersSocket, selectSocket, webSocket } from '../../services/ws/ws.slice';
+import { fetchOrderById, reducerSocketClose, selectIsLoading, selectOrdersSocket, webSocket } from '../../services/ws/ws.slice';
 import { API_Websocket_URL } from '../../constants';
 
 export const ProfileFeedPage = () => {
     const { id } = useParams()
     const replaceId = id?.replace(':', '')
     const dispatch = useAppDispatch();
-    const selectOrders = useSelector(selectOrdersSocket)
-    const isLoadingSocket = useSelector(selectIsLoading)
+    const selectOrders = useAppSelector(selectOrdersSocket)
+    const isLoadingSocket = useAppSelector(selectIsLoading)
     const ordersSort = selectOrders && [...selectOrders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     useEffect(() => {

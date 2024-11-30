@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
 import done from '../../../images/done.png'
 
 import s from './order-details.module.scss'
 import { selectOrderDetails } from '../../../services/ingridients/ingridients-slice';
 import { Preloader } from '../../preloader';
+import { useAppSelector } from '../../../services/store';
 
 export const OrderDetails = () => {
-    const orderDetail = useSelector(selectOrderDetails)
+    const orderDetail = useAppSelector(selectOrderDetails)
 
     return (
         <div className={s.wrapper} >

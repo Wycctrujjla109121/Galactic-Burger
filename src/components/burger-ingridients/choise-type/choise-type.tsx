@@ -1,12 +1,12 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import s from './choise-type.module.scss'
-import { useDispatch, useSelector } from "react-redux"
 import { changeNavigationMenuType, selectNavigationMenuType } from "../../../services/ingridients/ingridients-slice"
+import { useAppDispatch, useAppSelector } from "../../../services/store"
 
 export const ChoiseType = ({ choiseType }: { choiseType: string[] }) => {
-    const navigationMenuType = useSelector(selectNavigationMenuType)
-    const dispatch = useDispatch()
+    const navigationMenuType = useAppSelector(selectNavigationMenuType)
+    const dispatch = useAppDispatch()
 
     const handleChangeType = (type: string) => {
         dispatch(changeNavigationMenuType(type))

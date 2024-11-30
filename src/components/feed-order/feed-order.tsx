@@ -1,19 +1,18 @@
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './feed-order.module.scss'
-import { useSelector } from 'react-redux';
 import { fetchOrderById, selectOdrerById } from '../../services/ws/ws.slice';
 import { useParams } from 'react-router';
 import { ORDER_STATUS } from '../../constants/status';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { selectIngridients } from '../../services/ingridients/ingridients-slice';
 import { Preloader } from '../preloader';
 
 export const FeedOrder = () => {
     const { id } = useParams()
     const replaceId = id?.replace(':', '')
-    const orderById = useSelector(selectOdrerById)
-    const ingridients = useSelector(selectIngridients)
+    const orderById = useAppSelector(selectOdrerById)
+    const ingridients = useAppSelector(selectIngridients)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

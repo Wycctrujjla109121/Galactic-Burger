@@ -3,19 +3,19 @@ import { IngridientsType } from "../../../types/ingridients-type"
 
 import { useRef } from "react"
 import { useDrag } from "react-dnd"
-import { useDispatch, useSelector } from "react-redux"
 import { changeNavigationMenuType, selectConstructorIngridients, selectIngridientBun, selectIngridients, selectNavigationMenuType } from "../../../services/ingridients/ingridients-slice"
 import s from './ingridients-list.module.scss'
 import { Link, useLocation } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../../services/store"
 
 export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
     const location = useLocation()
 
-    const dispatch = useDispatch()
-    const ingridients = useSelector(selectIngridients)
-    const ingridientsConstructor = useSelector(selectConstructorIngridients)
-    const ingridientBun = useSelector(selectIngridientBun)
-    const navigationMenuType = useSelector(selectNavigationMenuType)
+    const dispatch = useAppDispatch()
+    const ingridients = useAppSelector(selectIngridients)
+    const ingridientsConstructor = useAppSelector(selectConstructorIngridients)
+    const ingridientBun = useAppSelector(selectIngridientBun)
+    const navigationMenuType = useAppSelector(selectNavigationMenuType)
 
     const countingQuantity = (item: IngridientsType) => {
         if (item.type === 'bun' && ingridientBun && item._id === ingridientBun._id) {

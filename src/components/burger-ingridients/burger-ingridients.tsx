@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
 import { selectIngridients } from '../../services/ingridients/ingridients-slice';
+import { useAppSelector } from '../../services/store';
 import s from './burger-ingridients.module.scss';
 import { ChoiseType } from './choise-type';
 import { IngridientsList } from './ingridients-list';
 
 export const BurgerIngridients = () => {
-    const ingridients = useSelector(selectIngridients)
+    const ingridients = useAppSelector(selectIngridients)
 
     const ingridientTypeName = Array.from(new Set(ingridients.map(i => i.type)))
 

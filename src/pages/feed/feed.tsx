@@ -1,17 +1,16 @@
-import { useSelector } from 'react-redux';
 import { FeedInfo, FeedList, Preloader } from '../../components';
 import s from './feed.module.scss';
 import { reducerSocketClose, selectIsLoading, selectSocket, webSocket } from '../../services/ws/ws.slice';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { API_Websocket_URL } from '../../constants';
 import React from 'react';
 
 export const FeedsPage = () => {
     const dispatch = useAppDispatch()
-    const data = useSelector(selectSocket);
+    const data = useAppSelector(selectSocket);
     const sortedOrders = data.orders && [...data.orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    const isLoading = useSelector(selectIsLoading)
+    const isLoading = useAppSelector(selectIsLoading)
 
     useEffect(() => {
         dispatch(webSocket({ url: `${API_Websocket_URL}/orders/all` }))

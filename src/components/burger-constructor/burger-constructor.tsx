@@ -4,7 +4,6 @@ import { BurgerConstructorLayout } from './burger-constructor-layout';
 import { nanoid } from '@reduxjs/toolkit';
 import { useMemo, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useSelector } from 'react-redux';
 import {
     addBunIngridient,
     addIngridient,
@@ -19,7 +18,7 @@ import { Modal } from '../modal';
 import s from './burger-constructor.module.scss';
 import { OrderDetails } from './order-details';
 import { DraggbleIngridient } from './draggble-ingridient';
-import { useAppDispatch } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { selectUser } from '../../services/user/user-slice';
 import { useNavigate } from 'react-router';
 import { LINKS } from '../../constants';
@@ -27,11 +26,11 @@ import { LINKS } from '../../constants';
 export const BurgerConstructor = () => {
     const [isOpen, setIsOpen] = useState(false)
 
-    const constructorIngridients = useSelector(selectConstructorIngridients)
-    const ingridientBun = useSelector(selectIngridientBun)
+    const constructorIngridients = useAppSelector(selectConstructorIngridients)
+    const ingridientBun = useAppSelector(selectIngridientBun)
     const dispatch = useAppDispatch()
 
-    const user = useSelector(selectUser)
+    const user = useAppSelector(selectUser)
     const navigate = useNavigate()
 
     const countPrice = useMemo(() => {

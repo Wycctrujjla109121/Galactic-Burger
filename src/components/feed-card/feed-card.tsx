@@ -3,14 +3,14 @@ import { CardOrderType } from '../../types/feed.types';
 
 import s from './feed.module.scss'
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { selectIngridients } from '../../services/ingridients/ingridients-slice';
 import { ORDER_STATUS } from '../../constants/status';
+import { useAppSelector } from '../../services/store';
 
 export const FeedCard = ({ orderNumber, date, ingridients, name, status }: CardOrderType) => {
     const locaton = useLocation()
 
-    const ingridientsList = useSelector(selectIngridients)
+    const ingridientsList = useAppSelector(selectIngridients)
     const filterIngridients = ingridientsList.filter(item => ingridients.includes(item._id))
 
     return (
