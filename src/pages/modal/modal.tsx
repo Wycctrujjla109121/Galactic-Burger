@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal } from "../../components";
+import { IngridientDetails } from "../../components/burger-ingridients/ingridient-details";
 import { addSelectIngridient, selectIngridients } from "../../services/ingridients/ingridients-slice";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../services/store";

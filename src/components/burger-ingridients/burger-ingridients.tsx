@@ -3,6 +3,7 @@ import { useAppSelector } from '../../services/store';
 import s from './burger-ingridients.module.scss';
 import { ChoiseType } from './choise-type';
 import { IngridientsList } from './ingridients-list';
+import { useAppSelector } from '../../services/store';
 
 export const BurgerIngridients = () => {
     const ingridients = useAppSelector(selectIngridients)
