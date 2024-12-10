@@ -25,9 +25,9 @@ export const OrderDetails = () => {
                             Дождитесь готовности на орбитальной станции
                         </p>
                     </>
-                    : <p className="p-10">
+                    : <div className="p-10">
                         <Preloader />
-                    </p>
+                    </div>
             }
         </div >
     );

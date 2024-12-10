@@ -1,7 +1,7 @@
 
 import s from './ingridient-details.module.scss'
 import { selectIngridient } from "../../../services/ingridients/ingridients-slice";
-import { useAppSelector } from "../../../services/store";
+import { useAppSelector } from '../../../services/store';
 
 export const IngridientDetails = () => {
     const ingridient = useAppSelector(selectIngridient)

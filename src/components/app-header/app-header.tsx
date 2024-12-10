@@ -36,7 +36,9 @@ export const AppHeader = () => {
                     </NavLink>
                 </div>
 
-                <Logo />
+                <NavLink to={LINKS.main}>
+                    <Logo />
+                </NavLink>
 
                 <NavLink to={LINKS.profile} className={`pl-5 pr-5 pb-4 pt-4 ${s.wrapper__link}`}>
                     {({ isActive }: NavLinkRenderProps) => (

@@ -6,5 +6,6 @@ export const LINKS = {
     resetPassword: '/reset-password',
     profile: '/profile',
     profileOrders: '/profile/orders',
-    order: '/order'
+    profileCurrentOrders: '/profile/orders/:',
+    order: '/feed'
 }
