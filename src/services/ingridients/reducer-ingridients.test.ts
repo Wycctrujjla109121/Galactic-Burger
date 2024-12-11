@@ -1,4 +1,18 @@
-import { addBunIngridient, addIngridient, addMutableConstructorIngridient, addSelectIngridient, changeNavigationMenuType, fetchIngridients, ingridientsSlice, initialState, initialStateType, postOrder, removeIngridient, removeOrderDetailAndConstructorIngridient, removeSelectIngridient } from "./ingridients-slice";
+import {
+    addBunIngridient,
+    addIngridient,
+    addMutableConstructorIngridient,
+    addSelectIngridient,
+    changeNavigationMenuType,
+    fetchIngridients,
+    ingridientsSlice,
+    initialState,
+    initialStateType,
+    postOrder,
+    removeIngridient,
+    removeOrderDetailAndConstructorIngridient,
+    removeSelectIngridient
+} from "./ingridients-slice";
 
 describe('Ingridient', () => {
     it('Проверка корректность initialState', () => {
