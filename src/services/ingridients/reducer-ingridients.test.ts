@@ -1,3 +1,4 @@
+import { ConstructorIngridientsType, IngridientsType, OrderType } from "../../types/ingridients-type";
 import {
     addBunIngridient,
     addIngridient,
@@ -20,18 +21,38 @@ describe('Ingridient', () => {
     })
 
     it('Проверка на получение ингридиентов', () => {
-        const ingridients = [
+        const ingridients:IngridientsType[] = [
             {
-                id: 1,
-                name: 'testIngridient-1',
+                _id: 'test',
+                name: 'test',
+                type: 'test',
+                proteins: 123,
+                fat: 123,
+                carbohydrates: 123,
+                calories: 123,
+                price: 123,
+                image: 'test',
+                image_mobile: 'test',
+                image_large: 'test',
+                __v: 123
             },
             {
-                id: 2,
-                name: 'testIngridient-2',
+                _id: 'test',
+                name: 'test',
+                type: 'test',
+                proteins: 123,
+                fat: 123,
+                carbohydrates: 123,
+                calories: 123,
+                price: 123,
+                image: 'test',
+                image_mobile: 'test',
+                image_large: 'test',
+                __v: 123
             }
         ];
 
-        const expectedState = {
+        const expectedState:initialStateType = {
             ...initialState,
             ingridients: ingridients,
             isLoading: false,
@@ -46,7 +67,7 @@ describe('Ingridient', () => {
     });
 
     it('Проверка на создание заказа', () => {
-        const order = {
+        const order:OrderType = {
             name: 'testOrder',
             order: {
                 number: 123
@@ -54,7 +75,7 @@ describe('Ingridient', () => {
             success: true
         }
 
-        const expectedState = {
+        const expectedState:initialStateType = {
             ...initialState,
             order: order
         };
@@ -68,7 +89,7 @@ describe('Ingridient', () => {
     })
 
     it('Проверка на добавление ингридиента', () => {
-        const newIngridient = {
+        const newIngridient:ConstructorIngridientsType = {
             uniqId: 'test',
             _id: 'test',
             name: 'test',
@@ -88,7 +109,7 @@ describe('Ingridient', () => {
     })
 
     it('Проверка на добавление булки', () => {
-        const newBunIngridient = {
+        const newBunIngridient:IngridientsType = {
             _id: 'test',
             name: 'test',
             type: 'test',
@@ -107,7 +128,7 @@ describe('Ingridient', () => {
     })
 
     it('Проверка на удаление ингридиента', () => {
-        const firstIngridient = {
+        const firstIngridient:ConstructorIngridientsType = {
             uniqId: 'first',
             _id: 'first',
             name: 'first',
@@ -122,7 +143,7 @@ describe('Ingridient', () => {
             image_large: 'first',
             __v: 1
         }
-        const twoIngridient = {
+        const twoIngridient:ConstructorIngridientsType = {
             uniqId: 'two',
             _id: 'two',
             name: 'two',
@@ -146,8 +167,7 @@ describe('Ingridient', () => {
     })
 
     it('Добавление выбранного ингридиента', () => {
-        const selectIngridient = {
-            uniqId: 'test',
+        const selectIngridient:IngridientsType = {
             _id: 'test',
             name: 'test',
             type: 'test',
@@ -166,7 +186,7 @@ describe('Ingridient', () => {
     })
 
     it('Удаление выбранного ингридиента', () => {
-        const selectIngridient = {
+        const selectIngridient:ConstructorIngridientsType = {
             uniqId: 'first',
             _id: 'first',
             name: 'first',
@@ -188,8 +208,8 @@ describe('Ingridient', () => {
         expect(newState).toEqual({...initialState, selectedIngridient: null})
     })
 
-    it('should add ingredients correctly', () => {
-        const ingredients = [
+    it('Проверка мутации ингридиента', () => {
+        const ingredients:ConstructorIngridientsType[] = [
             {
                 uniqId: 'first',
                 _id: 'first',
