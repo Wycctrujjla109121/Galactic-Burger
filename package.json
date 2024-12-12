@@ -2,7 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://wycctrujjla109121.github.io/Galactic-Burger",
+  "homepage": "https://wycctrujjla109121.github.io/Galactic-Burger/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",

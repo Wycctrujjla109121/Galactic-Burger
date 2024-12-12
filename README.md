@@ -1,6 +1,6 @@
 # Где посмотреть: 
-<a href='https://wycctrujjla109121.github.io' target='_blank' >github Pages</a>
-<a href='https://galactic-burger.vercel.app' target='_blank' >Vercel</a>
+<a href='https://wycctrujjla109121.github.io/Galactic-Burger/' target='_blank'>github Pages</a>
+<a href='https://galactic-burger.vercel.app' target='_blank'>Vercel</a>
 
 # Getting Started with Create React App
 
