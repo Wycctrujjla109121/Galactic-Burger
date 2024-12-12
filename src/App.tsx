@@ -9,6 +9,7 @@ import { authChecked, selectIsLoading } from './services/user/user-slice';
 import { fetchIngridients } from './services/ingridients/ingridients-slice';
 import { IngridientDetails } from './components/burger-ingridients/ingridient-details';
 import { selectOdrerById } from './services/ws/ws.slice';
+import React from 'react';
 
 function App() {
   const dispatch = useAppDispatch()
@@ -64,7 +65,7 @@ function App() {
       {
         state?.backgroundLocation &&
         <Routes>
-          <Route path='/ingridient/:id' element={<ModalPage title='Детали ингридиента' content={<IngridientDetails />} />} />
+          <Route path='/ingridient/:id' element={<ModalPage dataTestId='modal-ingridient-popup' title='Детали ингридиента' content={<IngridientDetails />} />} />
           <Route path='/feed/:id' element={<ModalPage title={<OrderNumber />} content={<FeedOrder />} />} />
           <Route path='/profile/orders/:id' element={<ModalPage title={<OrderNumber />} content={<FeedOrder />} />} />
         </Routes>

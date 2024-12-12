@@ -30,12 +30,14 @@ export const LoginPage = () => {
                         onChange={handleChangeForm}
                         type='email'
                         placeholder='E-mail'
+                        data-test-id='login-input'
                     />
                     <InputPassword
                         value={form.password}
                         handleChange={handleChangeForm}
+                        dataTestId='login-password'
                     />
-                    <Button htmlType={'submit'}>
+                    <Button htmlType={'submit'} data-test-id='login-submit'>
                         Войти
                     </Button>
                 </form>

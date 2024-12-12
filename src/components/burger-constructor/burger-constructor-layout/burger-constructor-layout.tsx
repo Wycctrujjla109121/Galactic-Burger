@@ -7,7 +7,7 @@ export const BurgerConstructorLayout = ({ children }: { children: React.ReactNod
     const ingridientBun = useAppSelector(selectIngridientBun)
 
     return (
-        <div className={s.wrapper}>
+        <div className={s.wrapper} data-test-id='drop-layout-area'>
             {
                 ingridientBun &&
                 <ConstructorElement
