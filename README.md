@@ -1,3 +1,7 @@
+# Где посмотреть: 
+<a href='Wycctrujjla109121.github.io'>github Pages</a>
+<a href='https://galactic-burger.vercel.app'>Vercel</a>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
