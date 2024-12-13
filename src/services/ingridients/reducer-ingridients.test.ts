@@ -15,6 +15,21 @@ import {
     removeSelectIngridient
 } from "./ingridients-slice";
 
+const ingredient:IngridientsType = {
+    _id: 'test',
+    name: 'test',
+    type: 'test',
+    proteins: 123,
+    fat: 123,
+    carbohydrates: 123,
+    calories: 123,
+    price: 123,
+    image: 'test',
+    image_mobile: 'test',
+    image_large: 'test',
+    __v: 123
+}
+
 describe('Ingridient', () => {
     it('Проверка корректность initialState', () => {
         expect(ingridientsSlice.reducer(undefined, {type: ''})).toEqual(initialState)
@@ -22,34 +37,8 @@ describe('Ingridient', () => {
 
     it('Проверка на получение ингридиентов', () => {
         const ingridients:IngridientsType[] = [
-            {
-                _id: 'test',
-                name: 'test',
-                type: 'test',
-                proteins: 123,
-                fat: 123,
-                carbohydrates: 123,
-                calories: 123,
-                price: 123,
-                image: 'test',
-                image_mobile: 'test',
-                image_large: 'test',
-                __v: 123
-            },
-            {
-                _id: 'test',
-                name: 'test',
-                type: 'test',
-                proteins: 123,
-                fat: 123,
-                carbohydrates: 123,
-                calories: 123,
-                price: 123,
-                image: 'test',
-                image_mobile: 'test',
-                image_large: 'test',
-                __v: 123
-            }
+            {...ingredient},
+            {...ingredient}
         ];
 
         const expectedState:initialStateType = {
@@ -90,73 +79,27 @@ describe('Ingridient', () => {
 
     it('Проверка на добавление ингридиента', () => {
         const newIngridient:ConstructorIngridientsType = {
+            ...ingredient,
             uniqId: 'test',
-            _id: 'test',
-            name: 'test',
-            type: 'test',
-            proteins: 123,
-            fat: 123,
-            carbohydrates: 123,
-            calories: 123,
-            price: 123,
-            image: 'test',
-            image_mobile: 'test',
-            image_large: 'test',
-            __v: 123
         };
 
         expect(ingridientsSlice.reducer(undefined, {type: addIngridient.type, payload: newIngridient})).toEqual({...initialState, constructorIngridients: [newIngridient]})
     })
 
     it('Проверка на добавление булки', () => {
-        const newBunIngridient:IngridientsType = {
-            _id: 'test',
-            name: 'test',
-            type: 'test',
-            proteins: 123,
-            fat: 123,
-            carbohydrates: 123,
-            calories: 123,
-            price: 123,
-            image: 'test',
-            image_mobile: 'test',
-            image_large: 'test',
-            __v: 123
-        }
+        const newBunIngridient:IngridientsType = {...ingredient}
 
         expect(ingridientsSlice.reducer(undefined, {type: addBunIngridient.type, payload: newBunIngridient})).toEqual({...initialState, ingridientBun: newBunIngridient})
     })
 
     it('Проверка на удаление ингридиента', () => {
         const firstIngridient:ConstructorIngridientsType = {
+            ...ingredient,
             uniqId: 'first',
-            _id: 'first',
-            name: 'first',
-            type: 'first',
-            proteins: 1,
-            fat: 1,
-            carbohydrates: 1,
-            calories: 1,
-            price: 1,
-            image: 'first',
-            image_mobile: 'first',
-            image_large: 'first',
-            __v: 1
         }
         const twoIngridient:ConstructorIngridientsType = {
+            ...ingredient,
             uniqId: 'two',
-            _id: 'two',
-            name: 'two',
-            type: 'two',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 2,
-            price: 2,
-            image: 'two',
-            image_mobile: 'two',
-            image_large: 'two',
-            __v: 2
         }
 
         // Удаляем из стейта ингридиент
@@ -167,39 +110,15 @@ describe('Ingridient', () => {
     })
 
     it('Добавление выбранного ингридиента', () => {
-        const selectIngridient:IngridientsType = {
-            _id: 'test',
-            name: 'test',
-            type: 'test',
-            proteins: 1,
-            fat: 1,
-            carbohydrates: 1,
-            calories: 1,
-            price: 1,
-            image: 'test',
-            image_mobile: 'test',
-            image_large: 'test',
-            __v: 1
-        }
+        const selectIngridient:IngridientsType = {...ingredient}
 
         expect(ingridientsSlice.reducer(undefined, {type: addSelectIngridient.type, payload: selectIngridient})).toEqual({...initialState, selectedIngridient: selectIngridient})
     })
 
     it('Удаление выбранного ингридиента', () => {
         const selectIngridient:ConstructorIngridientsType = {
+            ...ingredient,
             uniqId: 'first',
-            _id: 'first',
-            name: 'first',
-            type: 'first',
-            proteins: 1,
-            fat: 1,
-            carbohydrates: 1,
-            calories: 1,
-            price: 1,
-            image: 'first',
-            image_mobile: 'first',
-            image_large: 'first',
-            __v: 1
         }
 
         let newState = ingridientsSlice.reducer(undefined, {type: addSelectIngridient.type, payload: selectIngridient})
@@ -211,34 +130,12 @@ describe('Ingridient', () => {
     it('Проверка мутации ингридиента', () => {
         const ingredients:ConstructorIngridientsType[] = [
             {
+                ...ingredient,
                 uniqId: 'first',
-                _id: 'first',
-                name: 'first',
-                type: 'first',
-                proteins: 1,
-                fat: 1,
-                carbohydrates: 1,
-                calories: 1,
-                price: 1,
-                image: 'first',
-                image_mobile: 'first',
-                image_large: 'first',
-                __v: 1
             },
             {
+                ...ingredient,
                 uniqId: 'first',
-                _id: 'first',
-                name: 'first',
-                type: 'first',
-                proteins: 1,
-                fat: 1,
-                carbohydrates: 1,
-                calories: 1,
-                price: 1,
-                image: 'first',
-                image_mobile: 'first',
-                image_large: 'first',
-                __v: 1
             },
         ]
 
@@ -261,34 +158,12 @@ describe('Ingridient', () => {
             },
             constructorIngridients: [
                 {
+                    ...ingredient,
                     uniqId: 'ingridient',
-                    _id: 'ingridient',
-                    name: 'ingridient',
-                    type: 'ingridient',
-                    proteins: 1,
-                    fat: 1,
-                    carbohydrates: 1,
-                    calories: 1,
-                    price: 1,
-                    image: 'ingridient',
-                    image_mobile: 'ingridient',
-                    image_large: 'ingridient',
-                    __v: 1
                 }
             ],
             ingridientBun: {
-                _id: 'bun',
-                name: 'bun',
-                type: 'bun',
-                proteins: 1,
-                fat: 1,
-                carbohydrates: 1,
-                calories: 1,
-                price: 1,
-                image: 'bun',
-                image_mobile: 'bun',
-                image_large: 'bun',
-                __v: 1
+                ...ingredient,
             }
         }
 
