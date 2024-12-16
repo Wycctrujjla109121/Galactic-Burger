@@ -9,12 +9,14 @@ export const Modal = ({
     children,
     isOpen,
     setIsOpen,
+    dataTestId
 }:
     {
         title?: React.ReactNode,
         children: React.ReactNode,
         isOpen: boolean,
         setIsOpen: () => void,
+        dataTestId?: string
     }) => {
 
     const handleEscape = (e: KeyboardEvent) => {
@@ -37,7 +39,7 @@ export const Modal = ({
     }, [])
 
     return createPortal(
-        <div className={[s.wrapper, isOpen ? s.wrapper_open : s.wrapper_close].join(' ')}>
+        <div className={[s.wrapper, isOpen ? s.wrapper_open : s.wrapper_close].join(' ')} data-test-id={dataTestId}>
             <div className={s.wrapper__info}>
                 <div className={`pt-15 pr-10 pl-10 ${s.wrapper__header}`}>
                     {/* {

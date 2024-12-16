@@ -15,7 +15,7 @@ export interface initialStateType {
     navigationMenuType: string
 }
 
-const initialState:initialStateType = {
+export const initialState:initialStateType = {
     ingridients: [],
     isLoading: false,
     isError: false,

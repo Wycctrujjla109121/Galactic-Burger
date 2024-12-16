@@ -15,7 +15,7 @@ interface InitialStateType{
     isAuthChecked: boolean,
 }
 
-const initialState:InitialStateType = {
+export const initialState:InitialStateType = {
     user: null,
     isLoading: false,
     isError: false,

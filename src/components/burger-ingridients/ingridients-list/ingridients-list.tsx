@@ -98,7 +98,7 @@ export const IngridientsList = ({ choiseName }: { choiseName: string[] }) => {
                         <div className={s.ingridient__list}>
                             {
                                 ingridients.filter(ingridient => ingridient.type === type).map(item => (
-                                    <Link className={s.ingridient__item} state={{ backgroundLocation: location }} to={`/ingridient/:${item._id}`} key={item._id}>
+                                    <Link className={s.ingridient__item} data-test-id='ingridient-item' state={{ backgroundLocation: location }} to={`/ingridient/:${item._id}`} key={item._id}>
                                         <DraggableIngridient item={item} />
                                     </Link>
                                 ))

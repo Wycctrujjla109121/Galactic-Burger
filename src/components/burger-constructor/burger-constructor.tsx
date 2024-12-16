@@ -79,7 +79,7 @@ export const BurgerConstructor = () => {
 
     return (
         <section className={`${s.wrapper} mt-25`}>
-            <Modal isOpen={isOpen} setIsOpen={handleClosePopup}>
+            <Modal dataTestId='modal-order-popup' isOpen={isOpen} setIsOpen={handleClosePopup}>
                 <OrderDetails />
             </Modal>
             <div className={s.wrapper__content} ref={dropWrapper} style={{ border: isCanDrop ? '6px dotted gray' : '6px dotted transparent' }}>
@@ -104,7 +104,7 @@ export const BurgerConstructor = () => {
                     </p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button onClick={handlePostOrder} htmlType="button" type="primary" size="large">
+                <Button data-test-id='submit-button' onClick={handlePostOrder} htmlType="button" type="primary" size="large">
                     Нажми на меня
                 </Button>
             </div>

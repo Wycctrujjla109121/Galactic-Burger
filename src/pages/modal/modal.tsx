@@ -4,7 +4,7 @@ import { addSelectIngridient, selectIngridients } from "../../services/ingridien
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../services/store";
 
-export const ModalPage = ({ content, title }: { content: React.ReactNode, title?: React.ReactNode }) => {
+export const ModalPage = ({ content, title, dataTestId }: { content: React.ReactNode, title?: React.ReactNode, dataTestId?: string }) => {
     const [isOpen, setIsOpen] = useState(true)
 
     const navigate = useNavigate()
@@ -26,7 +26,7 @@ export const ModalPage = ({ content, title }: { content: React.ReactNode, title?
     }
 
     return (
-        <Modal title={title} isOpen={isOpen} setIsOpen={handleClosePopup}>
+        <Modal dataTestId={dataTestId} title={title} isOpen={isOpen} setIsOpen={handleClosePopup}>
             {content}
         </Modal>
     );

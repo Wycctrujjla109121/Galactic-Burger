@@ -3,7 +3,7 @@ import { API_URL } from "../../constants";
 import { IOrdersIngridients, IWebSocketResponse } from "../../types/websocket.type";
 import { request } from "../../utils/request";
 
-interface InitialStateType {
+export interface InitialStateType {
     webSocket: IWebSocketResponse
     isConnection: boolean;
     isError: boolean;
@@ -13,7 +13,7 @@ interface InitialStateType {
     isLoadingSocket: boolean;
 }
 
-const initialState: InitialStateType | null = {
+export const initialState: InitialStateType | null = {
     webSocket: {
         success: false,
         orders: null,
